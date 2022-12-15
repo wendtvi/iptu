@@ -212,11 +212,30 @@ merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.002
 merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.004
 merge_data$tier_iptu_pos_trat[merge_data$vv>400000]=0.006
 merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pre_trat
-merge_data$valor_iptu_pos_trat[merge_data$vv<=50000]=merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]+(merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]*)
-merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]
-merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.012
-merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.014
-merge_data$valor_iptu_pos_trat[merge_data$vv>400000]=0.016
+
+merge_data$vv_tier50k=0
+merge_data$vv_tier100k=0
+merge_data$vv_tier200k=0
+merge_data$vv_tier400k=0
+merge_data$vv_tier401k=0
+
+for (j in 1:length(merge_data$tier_iptu_pos_trat)){
+  merge_data$vv_tier50k[j]=min(merge_data$vv[j],50000)
+  merge_data$vv_tier100k[j]=min(merge_data$vv[j]-50000,50000)
+  merge_data$vv_tier200k[j]=min(merge_data$vv[j]-100000,100000)
+  merge_data$vv_tier400k[j]=min(merge_data$vv[j]-200000,200000)
+  merge_data$vv_tier401k[j]=merge_data$vv[j]-400000
+}
+merge_data$vv_tier50k[merge_data$vv_tier50k<0]=0
+merge_data$vv_tier100k[merge_data$vv_tier100k<0]=0
+merge_data$vv_tier200k[merge_data$vv_tier200k<0]=0
+merge_data$vv_tier400k[merge_data$vv_tier400k<0]=0
+merge_data$vv_tier401k[merge_data$vv_tier401k<0]=0
+
+merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pos_trat+(merge_data$vv_tier50k*(-0.002)+merge_data$vv_tier100k*0+merge_data$vv_tier200k*0.002+
+                                                                 merge_data$vv_tier400k*0.004+merge_data$vv_tier401k*0.006)
+
+hist(merge_data$valor_iptu_pos_trat-merge_data$valor_iptu_pre_trat,xlim = c(-20000,100000),breaks = 100,main = "Diferença entre valor iptu pré e pós tratamento")
 
 plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações em cada tier do IPTU após 2001")
 
