@@ -197,53 +197,27 @@ merge_data$vv_terreno=merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRE
 merge_data$vv="NA"
 merge_data$vv=merge_data$vv_terreno+merge_data$vv_construcao
 
+#Cria variável binária para período pós tratamento
+merge_data$Binaria_pos_trat=0
+merge_data$Binaria_pos_trat[merge_data$ANO.DO.EXERCICIO>2001]=1
+
+#Calcula tier de imposto
+merge_data$tier_iptu_pre_trat=0.01
+merge_data$valor_iptu_pre_trat=merge_data$tier_iptu_pre_trat*merge_data$vv
+plot(ln(merge_data$valor_iptu_pre_trat))
+merge_data$tier_iptu_pos_trat=0.01
+merge_data$tier_iptu_pos_trat[merge_data$vv<=50000]=-0.002
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=0
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.002
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.004
+merge_data$tier_iptu_pos_trat[merge_data$vv>400000]=0.006
+merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pre_trat
+merge_data$valor_iptu_pos_trat[merge_data$vv<=50000]=merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]+(merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]*)
+merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]
+merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.012
+merge_data$valor_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.014
+merge_data$valor_iptu_pos_trat[merge_data$vv>400000]=0.016
+
+plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações em cada tier do IPTU após 2001")
+
 save.image("ws.RData")
-
-############################################################################
-############################################################################
-#################################DATA QUALITY###############################
-############################################################################
-############################################################################
-
-
-merge_data$PC_TT_UN=as.double(gsub(",",".",as.character(merge_data$PC_TT_UN)))
-merge_data$PC_M2_AT=as.double(gsub(",",".",as.character(merge_data$PC_M2_AT)))
-merge_data$AR_UT_UNID=as.double(gsub(",",".",as.character(merge_data$AR_UT_UNID)))
-merge_data$PC_M2_AU=as.double(gsub(",",".",as.character(merge_data$PC_M2_AU)))
-merge_data$AR_TT_UNID=as.double(gsub(",",".",as.character(merge_data$AR_TT_UNID)))
-
-merge_data=merge_data[duplicated(merge_data$INDEX_MERGE)==FALSE,]
-#merge_data=merge_data[as.double(gsub(",",".",as.character(merge_data$vv)))<200000000000000,]
-vv_normal=(merge_data$vv-mean(merge_data$vv,na.rm = TRUE))*sqrt(length(merge_data$vv))/sqrt(var(merge_data$vv,na.rm = TRUE))
-vv_terreno_normal=(merge_data$vv_terreno-mean(merge_data$vv_terreno,na.rm = TRUE))*sqrt(length(merge_data$vv_terreno))/sqrt(var(merge_data$vv_terreno,na.rm = TRUE))
-vv_const_normal=(merge_data$vv_construcao-mean(merge_data$vv_construcao,na.rm = TRUE))*sqrt(length(merge_data$vv_construcao))/sqrt(var(merge_data$vv_construcao,na.rm = TRUE))
-pc_lanca_normal=(merge_data$PC_TT_UN-mean(merge_data$PC_TT_UN,na.rm = TRUE))*sqrt(length(merge_data$PC_TT_UN))/sqrt(var(merge_data$PC_TT_UN,na.rm = TRUE))
-
-plot(vv_normal,pc_lanca_normal)
-plot(vv_const_normal,pc_lanca_normal)
-plot(vv_terreno_normal,pc_lanca_normal)
-
-
-hist(merge_data$VALOR.DO.M2.DO.TERRENO,breaks = 50)
-hist(as.double(merge_data$PC_M2_AT),breaks = 50)
-hist(merge_data$AREA.DO.TERRENO,breaks = 50)
-hist(as.double(merge_data$AR_TT_UNID),breaks = 50)
-hist(merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRENO,breaks = 50)
-hist(as.double(merge_data$AR_TT_UNID)*as.double(merge_data$PC_M2_AT),breaks = 50)
-
-plot(file_yuri$pv,file_yuri$m2av)
-plot(log(merge_data$vv),log(merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$AREA.DO.TERRENO)+
-       merge_data$VALOR.DO.M2.DE.CONSTRUCAO*merge_data$AREA.CONSTRUIDA)
-plot(log(as.double(merge_data$PC_M2_AT)*as.double(merge_data$AR_TT_UNID)+
-           as.double(merge_data$PC_M2_AU)*as.double(merge_data$AR_UT_UNID)),log(merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$AREA.DO.TERRENO+
-       merge_data$VALOR.DO.M2.DE.CONSTRUCAO*merge_data$AREA.CONSTRUIDA))
-
-
-plot(log(merge_data$vv),log(merge_data$PC_TT_UN),ylim = c(10,18),xlim = c(7,20))
-plot(log(merge_data$vv),log(merge_data$PC_TT_UN))
-plot((merge_data$vv),(merge_data$PC_TT_UN))
-line(log(merge_data$vv),log(merge_data$PC_TT_UN))
-
-plot((merge_data$PC_TT_UN),(merge_data$VALOR.DO.M2.DO.TERRENO))
-plot(log(merge_data$vv),log(merge_data$PC_TT_UN),xlim = c(5,20),ylim = c(5,20))
-cor(log(merge_data$vv),log(merge_data$PC_TT_UN))
