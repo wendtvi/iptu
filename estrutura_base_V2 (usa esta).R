@@ -64,13 +64,11 @@ for(i in 1995:2015) {
       l=1
       for (l in 1:length(data_matrix$INDEX_MERGE)){
         score_str_matching=levenshteinSim(data_matrix$INDEX_MERGE[l],file_dbf_temp$INDEX_MERGE[n])
-        rel_precos_terr_const=(as.double(gsub(",",".",as.character(file_dbf_temp$PC_M2_AT[n])))*
-                                 as.double(gsub(",",".",as.character(file_dbf_temp$AR_TT_UNID[n])))+
-                                 as.double(gsub(",",".",as.character(file_dbf_temp$PC_M2_AU[n])))*
+        rel_precos_terr_const=(  as.double(gsub(",",".",as.character(file_dbf_temp$AR_TT_UNID[n])))+
                                  as.double(gsub(",",".",as.character(file_dbf_temp$AR_UT_UNID[n]))))/
-          ((data_matrix$VALOR.DO.M2.DO.TERRENO[l]*data_matrix$AREA.DO.TERRENO[l])+
-             (data_matrix$VALOR.DO.M2.DE.CONSTRUCAO[l]*data_matrix$AREA.CONSTRUIDA[l]))
-        if (score_str_matching>0.95 && (rel_precos_terr_const>0 && rel_precos_terr_const<10000)){
+          ((data_matrix$AREA.DO.TERRENO[l])+
+             (data_matrix$AREA.CONSTRUIDA[l]))
+        if (score_str_matching>0.95 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
           p=p+1
           data_matrix$INDEX_MERGE[l]=file_dbf_temp$INDEX_MERGE[n]
           data_matrix$SCORE_STR_INDEX[l]=score_str_matching
@@ -204,7 +202,7 @@ merge_data$Binaria_pos_trat[merge_data$ANO.DO.EXERCICIO>2001]=1
 #Calcula tier de imposto
 merge_data$tier_iptu_pre_trat=0.01
 merge_data$valor_iptu_pre_trat=merge_data$tier_iptu_pre_trat*merge_data$vv
-plot(ln(merge_data$valor_iptu_pre_trat))
+plot(log(merge_data$valor_iptu_pre_trat))
 merge_data$tier_iptu_pos_trat=0.01
 merge_data$tier_iptu_pos_trat[merge_data$vv<=50000]=-0.002
 merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=0
@@ -238,5 +236,7 @@ merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pos_trat+(merge_data$vv_tie
 hist(merge_data$valor_iptu_pos_trat-merge_data$valor_iptu_pre_trat,xlim = c(-20000,100000),breaks = 100,main = "Diferença entre valor iptu pré e pós tratamento")
 
 plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações em cada tier do IPTU após 2001")
+
+
 
 save.image("ws.RData")
