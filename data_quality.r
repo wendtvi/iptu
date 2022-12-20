@@ -40,14 +40,15 @@ plot(log(as.double(merge_data$PC_M2_AT)*as.double(merge_data$AR_TT_UNID)+
                                                                                   merge_data$VALOR.DO.M2.DE.CONSTRUCAO*merge_data$AREA.CONSTRUIDA))
 
 
-plot(log(merge_data$vv),log(merge_data$PC_TT_UN),ylim = c(10,18),xlim = c(7,20))
+plot(log(merge_data$vv),log(merge_data$PC_TT_UN))
 plot(log(merge_data$vv),log(merge_data$PC_TT_UN))
 plot((merge_data$vv),(merge_data$PC_TT_UN))
 line(log(merge_data$vv),log(merge_data$PC_TT_UN))
 
 plot((merge_data$PC_TT_UN),(merge_data$VALOR.DO.M2.DO.TERRENO))
-plot(log(merge_data$vv),log(merge_data$PC_TT_UN),xlim = c(5,20),ylim = c(5,20))
+plot(log(merge_data$vv),log(merge_data$PC_TT_UN))
 cor(log(merge_data$vv),log(merge_data$PC_TT_UN))
 
 
-#retira observações com valor do terreno = 1
+#retira observações com valor do terreno = 1 (erros na base)
+merge_data=merge_data[merge_data$AREA.DO.TERRENO!=1,]
