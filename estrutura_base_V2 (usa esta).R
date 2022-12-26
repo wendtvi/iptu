@@ -65,10 +65,10 @@ for(i in 1995:2015) {
       for (l in 1:length(data_matrix$INDEX_MERGE)){
         score_str_matching=levenshteinSim(data_matrix$INDEX_MERGE[l],file_dbf_temp$INDEX_MERGE[n])
         rel_precos_terr_const=(  as.double(gsub(",",".",as.character(file_dbf_temp$AR_TT_UNID[n])))+
-                                 as.double(gsub(",",".",as.character(file_dbf_temp$AR_UT_UNID[n]))))/
+                                   as.double(gsub(",",".",as.character(file_dbf_temp$AR_UT_UNID[n]))))/
           ((data_matrix$AREA.DO.TERRENO[l])+
              (data_matrix$AREA.CONSTRUIDA[l]))
-        if (score_str_matching>0.80 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
+        if (score_str_matching>0.95 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
           p=p+1
           data_matrix$INDEX_MERGE[l]=file_dbf_temp$INDEX_MERGE[n]
           data_matrix$SCORE_STR_INDEX[l]=score_str_matching
@@ -165,12 +165,12 @@ for(i in 1:nrow(merge_data)){
   if(merge_data$TESTADA.PARA.CALCULO[i]==95||merge_data$TESTADA.PARA.CALCULO[i]==96)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6455
   if(merge_data$TESTADA.PARA.CALCULO[i]==97||merge_data$TESTADA.PARA.CALCULO[i]==98)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6389
   if(merge_data$TESTADA.PARA.CALCULO[i]==99||merge_data$TESTADA.PARA.CALCULO[i]==100)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6325
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=101 && merge_data$TESTADA.PARA.CALCULO[i]<=105)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6172
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=106 && merge_data$TESTADA.PARA.CALCULO[i]<=110)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.603
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=111 && merge_data$TESTADA.PARA.CALCULO[i]<=115)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5898
   if(merge_data$TESTADA.PARA.CALCULO[i]>=116 && merge_data$TESTADA.PARA.CALCULO[i]<=120)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5774
   if(merge_data$TESTADA.PARA.CALCULO[i]>=121 && merge_data$TESTADA.PARA.CALCULO[i]<=125)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5657
   if(merge_data$TESTADA.PARA.CALCULO[i]>=126 && merge_data$TESTADA.PARA.CALCULO[i]<=130)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5547
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=101 && merge_data$TESTADA.PARA.CALCULO[i]<=105)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6172
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=106 && merge_data$TESTADA.PARA.CALCULO[i]<=110)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.603
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=111 && merge_data$TESTADA.PARA.CALCULO[i]<=115)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5898
   if(merge_data$TESTADA.PARA.CALCULO[i]>=131 && merge_data$TESTADA.PARA.CALCULO[i]<=135)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5443
   if(merge_data$TESTADA.PARA.CALCULO[i]>=136 && merge_data$TESTADA.PARA.CALCULO[i]<=140)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5345
   if(merge_data$TESTADA.PARA.CALCULO[i]>=141 && merge_data$TESTADA.PARA.CALCULO[i]<=145)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5252
@@ -237,6 +237,20 @@ hist(merge_data$valor_iptu_pos_trat-merge_data$valor_iptu_pre_trat,xlim = c(-200
 
 plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações em cada tier do IPTU após 2001")
 
+#Exlui valores extremos de SCORE_PC_TERR_CONST
+merge_data$unir_base_lanc_var=paste(merge_data$AR_UT_UNID,merge_data$AR_TT_UNID,merge_data$PC_TT_UN,merge_data$PC_TT_UN)
+merge_data$unir_base_lanc_var_INDEX=paste(merge_data$INDEX_MERGE,merge_data$unir_base_lanc_var)
+merge_data=merge_data[order(merge_data$unir_base_lanc_var_INDEX),]
+t=0
+k=2
+while (k <=nrow(merge_data)){
+  merge_data_temp=merge_data[merge_data$unir_base_lanc_var_INDEX==merge_data$unir_base_lanc_var_INDEX[k-1],]
+  merge_data_temp=merge_data_temp[order(merge_data_temp$rel_precos_terr_const,decreasing = TRUE),]
+  merge_data_final[t,]=merge_data_temp[1,]
+  k=1+nrow(merge_data_temp)
+  rm(merge_data_temp)
+  t=t+1
+}
 
 
 save.image("ws.RData")
