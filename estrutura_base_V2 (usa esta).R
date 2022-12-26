@@ -68,7 +68,7 @@ for(i in 1995:2015) {
                                  as.double(gsub(",",".",as.character(file_dbf_temp$AR_UT_UNID[n]))))/
           ((data_matrix$AREA.DO.TERRENO[l])+
              (data_matrix$AREA.CONSTRUIDA[l]))
-        if (score_str_matching>0.95 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
+        if (score_str_matching>0.80 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
           p=p+1
           data_matrix$INDEX_MERGE[l]=file_dbf_temp$INDEX_MERGE[n]
           data_matrix$SCORE_STR_INDEX[l]=score_str_matching
