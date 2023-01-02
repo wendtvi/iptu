@@ -68,7 +68,7 @@ for(i in 1995:2015) {
                                    as.double(gsub(",",".",as.character(file_dbf_temp$AR_UT_UNID[n]))))/
           ((data_matrix$AREA.DO.TERRENO[l])+
              (data_matrix$AREA.CONSTRUIDA[l]))
-        if (score_str_matching>0.95 && (rel_precos_terr_const>0.7 && rel_precos_terr_const<1.4)){
+        if (score_str_matching>=0.80 && (rel_precos_terr_const>0 && rel_precos_terr_const<10000000)){
           p=p+1
           data_matrix$INDEX_MERGE[l]=file_dbf_temp$INDEX_MERGE[n]
           data_matrix$SCORE_STR_INDEX[l]=score_str_matching
@@ -97,8 +97,12 @@ merge_data$vv_construcao=merge_data$AREA.CONSTRUIDA*merge_data$VALOR.DO.M2.DE.CO
 merge_data$FATOR.TIPO.DE.PROFUNDIDADE="NA"
 merge_data$FATOR.TIPO.DE.TERRENO="NA"
 merge_data$FATOR.TIPO.DE.CONDOMINIO="NA"
+merge_data$SUBDIVISAO.URBANA="NA"
 for(i in 1:nrow(merge_data)){
-  if(merge_data$TIPO.DE.TERRENO[i]=="de 2 ou mais fre de duas ou mais") merge_data$FATOR.TIPO.DE.TERRENO=1#provisario
+  
+    
+    
+  if(merge_data$TIPO.DE.TERRENO[i]=="de 2 ou mais fre de duas ou mais") merge_data$FATOR.TIPO.DE.TERRENO=1#Art 6 da lei de 86
   if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z desvio ferroviar") merge_data$FATOR.TIPO.DE.TERRENO=1#provisario
   if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.TERRENO=0.6
   if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.TERRENO=0.5
