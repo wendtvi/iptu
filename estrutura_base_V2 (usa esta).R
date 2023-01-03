@@ -5,7 +5,7 @@
 library(RecordLinkage)
 library(foreign)
 library(haven)
-#file_yuri=read_dta("G:/.shortcut-targets-by-id/1RoOXMnfWB1HXnG_ZYAvPJXB8hKlTZ5O0/iptu/data/clean/main_dataset_yuri.dta")
+file_yuri=read_dta("G:/.shortcut-targets-by-id/1RoOXMnfWB1HXnG_ZYAvPJXB8hKlTZ5O0/iptu/data/clean/main_dataset_yuri.dta")
 #file_completo_imoveis=read_dta("G:/.shortcut-targets-by-id/1RoOXMnfWB1HXnG_ZYAvPJXB8hKlTZ5O0/iptu/data/imoveis_runcompleto.dta")
 file_dbf=read.dbf("G:/.shortcut-targets-by-id/1RoOXMnfWB1HXnG_ZYAvPJXB8hKlTZ5O0/iptu/data/raw/LANRES_85_13_RMSP_CEM.dbf")
 file_dbf=file_dbf[file_dbf$MUNICIPIO=="SAO PAULO",]
@@ -13,7 +13,7 @@ file_dbf[,ncol(file_dbf)+1]=NA
 file_dbf$LOGRADOURO=as.character(file_dbf$LOGRADOURO)
 file_dbf$LOGRADOURO[11362]="Rua Constancio"
 file_dbf$LOGRADOURO[13247]="Colonia D'Assuncao"
-file_dbf=file_dbf[file_dbf$ANO_LAN>1994,]
+file_dbf=file_dbf[file_dbf$ANO_LAN>1997,]
 #file_dbf=file_dbf[file_dbf$ANO_LAN<=2001,]
 file_dbf$CEP=as.character(file_dbf$CEP)
 file_dbf[,ncol(file_dbf)]=toupper(paste(as.character(file_dbf$LOGRADOURO),as.character(file_dbf$NUM),as.character(file_dbf$CEP),sep=""))
@@ -90,6 +90,8 @@ for(i in 1995:2015) {
   }
 }
 
+merge_data=merge_data[merge_data$ANO.DO.EXERCICIO>1,]
+
 merge_data$vv_construcao="NA"
 merge_data$vv_construcao=merge_data$AREA.CONSTRUIDA*merge_data$VALOR.DO.M2.DE.CONSTRUCAO*merge_data$FATOR.DE.OBSOLESCENCIA
 
@@ -97,17 +99,86 @@ merge_data$vv_construcao=merge_data$AREA.CONSTRUIDA*merge_data$VALOR.DO.M2.DE.CO
 merge_data$FATOR.TIPO.DE.PROFUNDIDADE="NA"
 merge_data$FATOR.TIPO.DE.TERRENO="NA"
 merge_data$FATOR.TIPO.DE.CONDOMINIO="NA"
+merge_data$CEP.DO.IMOVEL=gsub("-","",merge_data$CEP.DO.IMOVEL)
+merge_data$CEP.DO.IMOVEL=as.numeric(merge_data$CEP.DO.IMOVEL)
 merge_data$SUBDIVISAO.URBANA="NA"
 for(i in 1:nrow(merge_data)){
+  #define variável subregião a partir do bairro/CEP
+  if(merge_data$CEP.DO.IMOVEL[i]<=5400000 && merge_data$CEP.DO.IMOVEL[i]>=5499999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1300000 && merge_data$CEP.DO.IMOVEL[i]>=1399999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=3000000 && merge_data$CEP.DO.IMOVEL[i]>=3099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1500000 && merge_data$CEP.DO.IMOVEL[i]>=1599999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4600000 && merge_data$CEP.DO.IMOVEL[i]>=4699999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1200003 && merge_data$CEP.DO.IMOVEL[i]>=12991002)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1300000 && merge_data$CEP.DO.IMOVEL[i]>=1399999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4500000 && merge_data$CEP.DO.IMOVEL[i]>=4599999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1400000 && merge_data$CEP.DO.IMOVEL[i]>=1499999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=5000000 && merge_data$CEP.DO.IMOVEL[i]>=5099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1500000 && merge_data$CEP.DO.IMOVEL[i]>=1599999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4000000 && merge_data$CEP.DO.IMOVEL[i]>=4099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4500000 && merge_data$CEP.DO.IMOVEL[i]>=4599999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=5600000 && merge_data$CEP.DO.IMOVEL[i]>=5699999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=5000000 && merge_data$CEP.DO.IMOVEL[i]>=5099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=5400000 && merge_data$CEP.DO.IMOVEL[i]>=5499999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1000002 && merge_data$CEP.DO.IMOVEL[i]>=10991001)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1200000 && merge_data$CEP.DO.IMOVEL[i]>=1299999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=2000000 && merge_data$CEP.DO.IMOVEL[i]>=2099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4100000 && merge_data$CEP.DO.IMOVEL[i]>=4199999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=1000000 && merge_data$CEP.DO.IMOVEL[i]>=1099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=3300000 && merge_data$CEP.DO.IMOVEL[i]>=3399999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=4000000 && merge_data$CEP.DO.IMOVEL[i]>=4099999)merge_data$SUBDIVISAO.URBANA[i]=1
+  if(merge_data$CEP.DO.IMOVEL[i]<=3500000 && merge_data$CEP.DO.IMOVEL[i]>=3599999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=1100000 && merge_data$CEP.DO.IMOVEL[i]>=1199999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3000000 && merge_data$CEP.DO.IMOVEL[i]>=3099999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=1100001 && merge_data$CEP.DO.IMOVEL[i]>=11991000)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5500000 && merge_data$CEP.DO.IMOVEL[i]>=5599999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4600000 && merge_data$CEP.DO.IMOVEL[i]>=4699999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3400000 && merge_data$CEP.DO.IMOVEL[i]>=3499999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2500000 && merge_data$CEP.DO.IMOVEL[i]>=2599999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5500000 && merge_data$CEP.DO.IMOVEL[i]>=5599999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2900000 && merge_data$CEP.DO.IMOVEL[i]>=2999999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4200000 && merge_data$CEP.DO.IMOVEL[i]>=4299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4300000 && merge_data$CEP.DO.IMOVEL[i]>=4399999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2200000 && merge_data$CEP.DO.IMOVEL[i]>=2299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5300000 && merge_data$CEP.DO.IMOVEL[i]>=5399999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5200000 && merge_data$CEP.DO.IMOVEL[i]>=5299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2700000 && merge_data$CEP.DO.IMOVEL[i]>=2799999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2400000 && merge_data$CEP.DO.IMOVEL[i]>=2499999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3100000 && merge_data$CEP.DO.IMOVEL[i]>=3199999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3000000 && merge_data$CEP.DO.IMOVEL[i]>=3099999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3600000 && merge_data$CEP.DO.IMOVEL[i]>=3699999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2900000 && merge_data$CEP.DO.IMOVEL[i]>=2999999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5100000 && merge_data$CEP.DO.IMOVEL[i]>=5199999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3700000 && merge_data$CEP.DO.IMOVEL[i]>=3799999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5300000 && merge_data$CEP.DO.IMOVEL[i]>=5399999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4200000 && merge_data$CEP.DO.IMOVEL[i]>=4299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4700000 && merge_data$CEP.DO.IMOVEL[i]>=4799999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=4700000 && merge_data$CEP.DO.IMOVEL[i]>=4799999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2200000 && merge_data$CEP.DO.IMOVEL[i]>=2299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3300000 && merge_data$CEP.DO.IMOVEL[i]>=3399999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2000000 && merge_data$CEP.DO.IMOVEL[i]>=2099999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5300000 && merge_data$CEP.DO.IMOVEL[i]>=5399999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2100000 && merge_data$CEP.DO.IMOVEL[i]>=2199999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3500000 && merge_data$CEP.DO.IMOVEL[i]>=3599999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=2200000 && merge_data$CEP.DO.IMOVEL[i]>=2299999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=3100000 && merge_data$CEP.DO.IMOVEL[i]>=3199999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(merge_data$CEP.DO.IMOVEL[i]<=5600000 && merge_data$CEP.DO.IMOVEL[i]>=5699999)merge_data$SUBDIVISAO.URBANA[i]=2
+  if(is.na(merge_data$SUBDIVISAO.URBANA[i]))merge_data$SUBDIVISAO.URBANA[i]=3
   
-    
-    
-  if(merge_data$TIPO.DE.TERRENO[i]=="de 2 ou mais fre de duas ou mais") merge_data$FATOR.TIPO.DE.TERRENO=1#Art 6 da lei de 86
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z desvio ferroviar") merge_data$FATOR.TIPO.DE.TERRENO=1#provisario
+  #fator de terreno
+  if(merge_data$TIPO.DE.TERRENO[i]=="de duas ou mais ") merge_data$FATOR.TIPO.DE.TERRENO=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO=1.3
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO=1.2
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO=1.1
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO=1.3
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO=1.2
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO=1.1
   if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.TERRENO=0.6
   if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.TERRENO=0.5
-  if(merge_data$TIPO.DE.TERRENO[i]=="normal") merge_data$FATOR.TIPO.DE.TERRENO=1#provisario
+  if(merge_data$TIPO.DE.TERRENO[i]=="normal") merge_data$FATOR.TIPO.DE.TERRENO=1
   if(merge_data$TIPO.DE.TERRENO[i]=="terreno interno") merge_data$FATOR.TIPO.DE.TERRENO=0.7
+  
+  #Cálculo fator de profundidade
   if(merge_data$TESTADA.PARA.CALCULO[i]<=10)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7071
   if(merge_data$TESTADA.PARA.CALCULO[i]==11)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7416
   if(merge_data$TESTADA.PARA.CALCULO[i]==12)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7746
@@ -185,8 +256,23 @@ for(i in 1:nrow(merge_data)){
   if(merge_data$TESTADA.PARA.CALCULO[i]>=181 && merge_data$TESTADA.PARA.CALCULO[i]<=190)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4588
   if(merge_data$TESTADA.PARA.CALCULO[i]>=191 && merge_data$TESTADA.PARA.CALCULO[i]<=200)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4472
   if(merge_data$TESTADA.PARA.CALCULO[i]>=201)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4472
+  
+  #fator condominio
   if(merge_data$NUMERO.DO.CONDOMINIO[i]=="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO=1
   if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO=1.6
+  
+  #fator de tipo de terreno corrigido em caso de condomínio
+  if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.TERRENO=1.0
+  
+  #fator de condominio corrigido para terreno encravado e de fundos
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.CONDOMINIO=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.CONDOMINIO=1
+  
+  #fator de ideal corrigido para terreno encravado e de fundos
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FRACAO.IDEAL=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FRACAO.IDEAL=1
+  
+  
 }
 
 
@@ -194,7 +280,20 @@ merge_data$vv_terreno="NA"
 merge_data$vv_terreno=merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$FRACAO.IDEAL*
   merge_data$FATOR.TIPO.DE.PROFUNDIDADE*merge_data$FATOR.TIPO.DE.TERRENO*merge_data$FATOR.TIPO.DE.CONDOMINIO
 
-#merge_data$vv_terreno=merge_data$vv_terreno/1.6
+#recalcula fator de condominio para casos especiais
+merge_data$indice_condominio=NA
+for (k in 1:length(merge_data$INDEX_MERGE)){
+  if (merge_data$FATOR.TIPO.DE.CONDOMINIO[k]==1.6){
+    merge_data$indice_condominio=merge_data$vv_terreno[k]/merge_data$vv_construcao[k]
+    if (merge_data$indice_condominio[k]<0.2)merge_data$FATOR.TIPO.DE.CONDOMINIO[k]=2.2-3*merge_data$indice_condominio[k]
+    if (merge_data$indice_condominio[k]>2.0 && merge_data$indice_condominio[k]<=7.0)merge_data$FATOR.TIPO.DE.CONDOMINIO[k]=1.8-0.1*merge_data$indice_condominio[k]
+    if (merge_data$indice_condominio[k]>7)merge_data$FATOR.TIPO.DE.CONDOMINIO[k]=1.1
+  }
+}
+
+merge_data$vv_terreno=merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$FRACAO.IDEAL*
+  merge_data$FATOR.TIPO.DE.PROFUNDIDADE*merge_data$FATOR.TIPO.DE.TERRENO*merge_data$FATOR.TIPO.DE.CONDOMINIO
+
 
 merge_data$vv="NA"
 merge_data$vv=merge_data$vv_terreno+merge_data$vv_construcao
@@ -208,11 +307,11 @@ merge_data$tier_iptu_pre_trat=0.01
 merge_data$valor_iptu_pre_trat=merge_data$tier_iptu_pre_trat*merge_data$vv
 plot(log(merge_data$valor_iptu_pre_trat))
 merge_data$tier_iptu_pos_trat=0.01
-merge_data$tier_iptu_pos_trat[merge_data$vv<=50000]=-0.002
-merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=0
-merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.002
-merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.004
-merge_data$tier_iptu_pos_trat[merge_data$vv>400000]=0.006
+merge_data$tier_iptu_pos_trat[merge_data$vv<=50000]=0.008
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=0.01
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.012
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.014
+merge_data$tier_iptu_pos_trat[merge_data$vv>400000]=0.016
 merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pre_trat
 
 merge_data$vv_tier50k=0
@@ -237,7 +336,11 @@ merge_data$vv_tier401k[merge_data$vv_tier401k<0]=0
 merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pos_trat+(merge_data$vv_tier50k*(-0.002)+merge_data$vv_tier100k*0+merge_data$vv_tier200k*0.002+
                                                                  merge_data$vv_tier400k*0.004+merge_data$vv_tier401k*0.006)
 
-hist(merge_data$valor_iptu_pos_trat-merge_data$valor_iptu_pre_trat,xlim = c(-20000,100000),breaks = 100,main = "Diferença entre valor iptu pré e pós tratamento")
+merge_data$aliquota_real=merge_data$valor_iptu_pos_trat/merge_data$valor_iptu_pre_trat
+
+hist(merge_data$valor_iptu_pos_trat-merge_data$valor_iptu_pre_trat,xlim = c(-20000,100000),breaks = 200,main = "Diferença entre valor iptu pré e pós tratamento")
+
+hist(merge_data$aliquota_real,breaks = 10,main = "Alíquota real")
 
 plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações em cada tier do IPTU após 2001")
 
