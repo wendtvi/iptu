@@ -355,13 +355,13 @@ t=1
 k=2
 while (nrow(merge_data)>0){
   merge_data_temp=merge_data[merge_data$unir_base_lanc_var_INDEX==merge_data$unir_base_lanc_var_INDEX[k-1],]
-  merge_data=merge_data[-c(merge_data$unir_base_lanc_var_INDEX==merge_data$unir_base_lanc_var_INDEX[k-1]),]
+  merge_data=merge_data[-seq(1,nrow(merge_data_temp),1),]
   merge_data_temp=merge_data_temp[order(merge_data_temp$SCORE_PC_TERR_CONST,decreasing = TRUE),]
   merge_data_final[t,]=merge_data_temp[1,]
-  k=1+nrow(merge_data_temp)
+  k=2
   rm(merge_data_temp)
   t=t+1
 }
 
 
-save.image("ws.RData")
+save.image("ws_final.RData")
