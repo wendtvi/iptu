@@ -6,22 +6,7 @@
 ############################################################################
 ############################################################################
 
-
-merge_data_final$PC_TT_UN=as.double(gsub(",",".",as.character(merge_data_final$PC_TT_UN)))
-merge_data_final$PC_M2_AT=as.double(gsub(",",".",as.character(merge_data_final$PC_M2_AT)))
-merge_data_final$AR_UT_UNID=as.double(gsub(",",".",as.character(merge_data_final$AR_UT_UNID)))
-merge_data_final$PC_M2_AU=as.double(gsub(",",".",as.character(merge_data_final$PC_M2_AU)))
-merge_data_final$AR_TT_UNID=as.double(gsub(",",".",as.character(merge_data_final$AR_TT_UNID)))
-
-merge_data_final=merge_data_final[duplicated(merge_data_final$INDEX_MERGE)==FALSE,]
-#merge_data_final=merge_data_final[as.double(gsub(",",".",as.character(merge_data_final$vv)))<200000000000000,]
-vv_normal=(merge_data_final$vv-mean(merge_data_final$vv,na.rm = TRUE))*sqrt(length(merge_data_final$vv))/sqrt(var(merge_data_final$vv,na.rm = TRUE))
-vv_terreno_normal=(merge_data_final$vv_terreno-mean(merge_data_final$vv_terreno,na.rm = TRUE))*sqrt(length(merge_data_final$vv_terreno))/sqrt(var(merge_data_final$vv_terreno,na.rm = TRUE))
-vv_const_normal=(merge_data_final$vv_construcao-mean(merge_data_final$vv_construcao,na.rm = TRUE))*sqrt(length(merge_data_final$vv_construcao))/sqrt(var(merge_data_final$vv_construcao,na.rm = TRUE))
-pc_lanca_normal=(merge_data_final$PC_TT_UN-mean(merge_data_final$PC_TT_UN,na.rm = TRUE))*sqrt(length(merge_data_final$PC_TT_UN))/sqrt(var(merge_data_final$PC_TT_UN,na.rm = TRUE))
-
-
-
+#Gráficos principais
 par(mfrow=c(1,1))
 plot(log(merge_data_final$vv),log(merge_data_final$PC_TT_UN), main = "Preço de lançamento vs Valor Venal em log",xlab = "log do Valor Venal",ylab = "log do Preço de Lançamento")
 
@@ -39,8 +24,22 @@ hist((merge_data$aliquota_real),breaks = 20)
 merge_data_final=merge_data_final[merge_data_final$AREA.DO.TERRENO!=1,]
 
 
-
 #Gráficos adicionais
+
+merge_data_final$PC_TT_UN=as.double(gsub(",",".",as.character(merge_data_final$PC_TT_UN)))
+merge_data_final$PC_M2_AT=as.double(gsub(",",".",as.character(merge_data_final$PC_M2_AT)))
+merge_data_final$AR_UT_UNID=as.double(gsub(",",".",as.character(merge_data_final$AR_UT_UNID)))
+merge_data_final$PC_M2_AU=as.double(gsub(",",".",as.character(merge_data_final$PC_M2_AU)))
+merge_data_final$AR_TT_UNID=as.double(gsub(",",".",as.character(merge_data_final$AR_TT_UNID)))
+
+merge_data_final=merge_data_final[duplicated(merge_data_final$INDEX_MERGE)==FALSE,]
+#merge_data_final=merge_data_final[as.double(gsub(",",".",as.character(merge_data_final$vv)))<200000000000000,]
+vv_normal=(merge_data_final$vv-mean(merge_data_final$vv,na.rm = TRUE))*sqrt(length(merge_data_final$vv))/sqrt(var(merge_data_final$vv,na.rm = TRUE))
+vv_terreno_normal=(merge_data_final$vv_terreno-mean(merge_data_final$vv_terreno,na.rm = TRUE))*sqrt(length(merge_data_final$vv_terreno))/sqrt(var(merge_data_final$vv_terreno,na.rm = TRUE))
+vv_const_normal=(merge_data_final$vv_construcao-mean(merge_data_final$vv_construcao,na.rm = TRUE))*sqrt(length(merge_data_final$vv_construcao))/sqrt(var(merge_data_final$vv_construcao,na.rm = TRUE))
+pc_lanca_normal=(merge_data_final$PC_TT_UN-mean(merge_data_final$PC_TT_UN,na.rm = TRUE))*sqrt(length(merge_data_final$PC_TT_UN))/sqrt(var(merge_data_final$PC_TT_UN,na.rm = TRUE))
+
+
 plot((merge_data_final$PC_TT_UN),(merge_data_final$VALOR.DO.M2.DO.TERRENO))
 cor(log(merge_data_final$vv),log(merge_data_final$PC_TT_UN))
 plot(file_yuri$pv,file_yuri$m2av)
