@@ -13,7 +13,7 @@ file_dbf[,ncol(file_dbf)+1]=NA
 file_dbf$LOGRADOURO=as.character(file_dbf$LOGRADOURO)
 file_dbf$LOGRADOURO[11362]="Rua Constancio"
 file_dbf$LOGRADOURO[13247]="Colonia D'Assuncao"
-file_dbf=file_dbf[file_dbf$ANO_LAN>1997,]
+file_dbf=file_dbf[file_dbf$ANO_LAN>1994,]
 #file_dbf=file_dbf[file_dbf$ANO_LAN<=2001,]
 file_dbf$CEP=as.character(file_dbf$CEP)
 file_dbf[,ncol(file_dbf)]=toupper(paste(as.character(file_dbf$LOGRADOURO),as.character(file_dbf$NUM),as.character(file_dbf$CEP),sep=""))
@@ -166,114 +166,117 @@ for(i in 1:nrow(merge_data)){
   if(is.na(merge_data$SUBDIVISAO.URBANA[i]))merge_data$SUBDIVISAO.URBANA[i]=3
   
   #fator de terreno
-  if(merge_data$TIPO.DE.TERRENO[i]=="de duas ou mais ") merge_data$FATOR.TIPO.DE.TERRENO=1
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO=1.3
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO=1.2
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO=1.1
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO=1.3
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO=1.2
-  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO=1.1
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.TERRENO=0.6
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.TERRENO=0.5
-  if(merge_data$TIPO.DE.TERRENO[i]=="normal") merge_data$FATOR.TIPO.DE.TERRENO=1
-  if(merge_data$TIPO.DE.TERRENO[i]=="terreno interno") merge_data$FATOR.TIPO.DE.TERRENO=0.7
+  if(merge_data$TIPO.DE.TERRENO[i]=="de duas ou mais ") merge_data$FATOR.TIPO.DE.TERRENO[i]=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.3
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.2
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina de esquina, em Z"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.1
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==1) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.3
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==2) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.2
+  if(merge_data$TIPO.DE.TERRENO[i]=="de esquina"&& merge_data$SUBDIVISAO.URBANA[i]==3) merge_data$FATOR.TIPO.DE.TERRENO[i]=1.1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.TERRENO[i]=0.6
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.TERRENO[i]=0.5
+  if(merge_data$TIPO.DE.TERRENO[i]=="normal") merge_data$FATOR.TIPO.DE.TERRENO[i]=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="terreno interno") merge_data$FATOR.TIPO.DE.TERRENO[i]=0.7
   
   #Cálculo fator de profundidade
-  if(merge_data$TESTADA.PARA.CALCULO[i]<=10)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7071
-  if(merge_data$TESTADA.PARA.CALCULO[i]==11)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7416
-  if(merge_data$TESTADA.PARA.CALCULO[i]==12)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7746
-  if(merge_data$TESTADA.PARA.CALCULO[i]==13)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8062
-  if(merge_data$TESTADA.PARA.CALCULO[i]==14)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8367
-  if(merge_data$TESTADA.PARA.CALCULO[i]==15)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.866
-  if(merge_data$TESTADA.PARA.CALCULO[i]==16)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8944
-  if(merge_data$TESTADA.PARA.CALCULO[i]==17)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.922
-  if(merge_data$TESTADA.PARA.CALCULO[i]==18)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9487
-  if(merge_data$TESTADA.PARA.CALCULO[i]==19)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9747
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=20 && merge_data$TESTADA.PARA.CALCULO[i]<=40)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=1
-  if(merge_data$TESTADA.PARA.CALCULO[i]==41)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9877
-  if(merge_data$TESTADA.PARA.CALCULO[i]==42)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9759
-  if(merge_data$TESTADA.PARA.CALCULO[i]==43)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9645
-  if(merge_data$TESTADA.PARA.CALCULO[i]==44)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9535
-  if(merge_data$TESTADA.PARA.CALCULO[i]==45)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9428
-  if(merge_data$TESTADA.PARA.CALCULO[i]==46)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9325
-  if(merge_data$TESTADA.PARA.CALCULO[i]==47)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9225
-  if(merge_data$TESTADA.PARA.CALCULO[i]==48)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9129
-  if(merge_data$TESTADA.PARA.CALCULO[i]==49)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.9035
-  if(merge_data$TESTADA.PARA.CALCULO[i]==50)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8944
-  if(merge_data$TESTADA.PARA.CALCULO[i]==51)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8856
-  if(merge_data$TESTADA.PARA.CALCULO[i]==52)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8771
-  if(merge_data$TESTADA.PARA.CALCULO[i]==53)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8687
-  if(merge_data$TESTADA.PARA.CALCULO[i]==54)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8607
-  if(merge_data$TESTADA.PARA.CALCULO[i]==55)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8528
-  if(merge_data$TESTADA.PARA.CALCULO[i]==56)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8452
-  if(merge_data$TESTADA.PARA.CALCULO[i]==57)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8377
-  if(merge_data$TESTADA.PARA.CALCULO[i]==58)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8305
-  if(merge_data$TESTADA.PARA.CALCULO[i]==59)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8234
-  if(merge_data$TESTADA.PARA.CALCULO[i]==60)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8165
-  if(merge_data$TESTADA.PARA.CALCULO[i]==61)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8098
-  if(merge_data$TESTADA.PARA.CALCULO[i]==62)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.8032
-  if(merge_data$TESTADA.PARA.CALCULO[i]==63)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7968
-  if(merge_data$TESTADA.PARA.CALCULO[i]==64)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7906
-  if(merge_data$TESTADA.PARA.CALCULO[i]==65)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7845
-  if(merge_data$TESTADA.PARA.CALCULO[i]==66)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7785
-  if(merge_data$TESTADA.PARA.CALCULO[i]==67)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7727
-  if(merge_data$TESTADA.PARA.CALCULO[i]==68)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.767
-  if(merge_data$TESTADA.PARA.CALCULO[i]==69)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7614
-  if(merge_data$TESTADA.PARA.CALCULO[i]==70)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7559
-  if(merge_data$TESTADA.PARA.CALCULO[i]==71)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7506
-  if(merge_data$TESTADA.PARA.CALCULO[i]==72)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7454
-  if(merge_data$TESTADA.PARA.CALCULO[i]==73)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7402
-  if(merge_data$TESTADA.PARA.CALCULO[i]==74)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7352
-  if(merge_data$TESTADA.PARA.CALCULO[i]==75)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7303
-  if(merge_data$TESTADA.PARA.CALCULO[i]==76)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7255
-  if(merge_data$TESTADA.PARA.CALCULO[i]==77)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7207
-  if(merge_data$TESTADA.PARA.CALCULO[i]==78)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7161
-  if(merge_data$TESTADA.PARA.CALCULO[i]==79)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7116
-  if(merge_data$TESTADA.PARA.CALCULO[i]==80)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.7071
-  if(merge_data$TESTADA.PARA.CALCULO[i]==81 ||merge_data$TESTADA.PARA.CALCULO[i]==82)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6984
-  if(merge_data$TESTADA.PARA.CALCULO[i]==83||merge_data$TESTADA.PARA.CALCULO[i]==84)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6901
-  if(merge_data$TESTADA.PARA.CALCULO[i]==85||merge_data$TESTADA.PARA.CALCULO[i]==86)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.682
-  if(merge_data$TESTADA.PARA.CALCULO[i]==87||merge_data$TESTADA.PARA.CALCULO[i]==88)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6742
-  if(merge_data$TESTADA.PARA.CALCULO[i]==89||merge_data$TESTADA.PARA.CALCULO[i]==90)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6667
-  if(merge_data$TESTADA.PARA.CALCULO[i]==91||merge_data$TESTADA.PARA.CALCULO[i]==92)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6594
-  if(merge_data$TESTADA.PARA.CALCULO[i]==93||merge_data$TESTADA.PARA.CALCULO[i]==94)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6523
-  if(merge_data$TESTADA.PARA.CALCULO[i]==95||merge_data$TESTADA.PARA.CALCULO[i]==96)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6455
-  if(merge_data$TESTADA.PARA.CALCULO[i]==97||merge_data$TESTADA.PARA.CALCULO[i]==98)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6389
-  if(merge_data$TESTADA.PARA.CALCULO[i]==99||merge_data$TESTADA.PARA.CALCULO[i]==100)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6325
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=116 && merge_data$TESTADA.PARA.CALCULO[i]<=120)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5774
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=121 && merge_data$TESTADA.PARA.CALCULO[i]<=125)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5657
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=126 && merge_data$TESTADA.PARA.CALCULO[i]<=130)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5547
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=101 && merge_data$TESTADA.PARA.CALCULO[i]<=105)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.6172
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=106 && merge_data$TESTADA.PARA.CALCULO[i]<=110)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.603
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=111 && merge_data$TESTADA.PARA.CALCULO[i]<=115)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5898
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=131 && merge_data$TESTADA.PARA.CALCULO[i]<=135)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5443
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=136 && merge_data$TESTADA.PARA.CALCULO[i]<=140)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5345
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=141 && merge_data$TESTADA.PARA.CALCULO[i]<=145)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5252
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=146 && merge_data$TESTADA.PARA.CALCULO[i]<=150)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5164
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=151 && merge_data$TESTADA.PARA.CALCULO[i]<=160)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.5
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=161 && merge_data$TESTADA.PARA.CALCULO[i]<=170)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4851
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=171 && merge_data$TESTADA.PARA.CALCULO[i]<=180)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4714
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=181 && merge_data$TESTADA.PARA.CALCULO[i]<=190)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4588
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=191 && merge_data$TESTADA.PARA.CALCULO[i]<=200)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4472
-  if(merge_data$TESTADA.PARA.CALCULO[i]>=201)merge_data$FATOR.TIPO.DE.PROFUNDIDADE=0.4472
+  if(merge_data$TESTADA.PARA.CALCULO[i]<=10)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7071
+  if(merge_data$TESTADA.PARA.CALCULO[i]==11)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7416
+  if(merge_data$TESTADA.PARA.CALCULO[i]==12)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7746
+  if(merge_data$TESTADA.PARA.CALCULO[i]==13)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8062
+  if(merge_data$TESTADA.PARA.CALCULO[i]==14)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8367
+  if(merge_data$TESTADA.PARA.CALCULO[i]==15)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.866
+  if(merge_data$TESTADA.PARA.CALCULO[i]==16)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8944
+  if(merge_data$TESTADA.PARA.CALCULO[i]==17)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.922
+  if(merge_data$TESTADA.PARA.CALCULO[i]==18)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9487
+  if(merge_data$TESTADA.PARA.CALCULO[i]==19)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9747
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=20 && merge_data$TESTADA.PARA.CALCULO[i]<=40)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=1
+  if(merge_data$TESTADA.PARA.CALCULO[i]==41)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9877
+  if(merge_data$TESTADA.PARA.CALCULO[i]==42)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9759
+  if(merge_data$TESTADA.PARA.CALCULO[i]==43)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9645
+  if(merge_data$TESTADA.PARA.CALCULO[i]==44)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9535
+  if(merge_data$TESTADA.PARA.CALCULO[i]==45)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9428
+  if(merge_data$TESTADA.PARA.CALCULO[i]==46)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9325
+  if(merge_data$TESTADA.PARA.CALCULO[i]==47)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9225
+  if(merge_data$TESTADA.PARA.CALCULO[i]==48)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9129
+  if(merge_data$TESTADA.PARA.CALCULO[i]==49)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.9035
+  if(merge_data$TESTADA.PARA.CALCULO[i]==50)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8944
+  if(merge_data$TESTADA.PARA.CALCULO[i]==51)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8856
+  if(merge_data$TESTADA.PARA.CALCULO[i]==52)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8771
+  if(merge_data$TESTADA.PARA.CALCULO[i]==53)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8687
+  if(merge_data$TESTADA.PARA.CALCULO[i]==54)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8607
+  if(merge_data$TESTADA.PARA.CALCULO[i]==55)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8528
+  if(merge_data$TESTADA.PARA.CALCULO[i]==56)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8452
+  if(merge_data$TESTADA.PARA.CALCULO[i]==57)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8377
+  if(merge_data$TESTADA.PARA.CALCULO[i]==58)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8305
+  if(merge_data$TESTADA.PARA.CALCULO[i]==59)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8234
+  if(merge_data$TESTADA.PARA.CALCULO[i]==60)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8165
+  if(merge_data$TESTADA.PARA.CALCULO[i]==61)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8098
+  if(merge_data$TESTADA.PARA.CALCULO[i]==62)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.8032
+  if(merge_data$TESTADA.PARA.CALCULO[i]==63)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7968
+  if(merge_data$TESTADA.PARA.CALCULO[i]==64)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7906
+  if(merge_data$TESTADA.PARA.CALCULO[i]==65)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7845
+  if(merge_data$TESTADA.PARA.CALCULO[i]==66)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7785
+  if(merge_data$TESTADA.PARA.CALCULO[i]==67)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7727
+  if(merge_data$TESTADA.PARA.CALCULO[i]==68)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.767
+  if(merge_data$TESTADA.PARA.CALCULO[i]==69)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7614
+  if(merge_data$TESTADA.PARA.CALCULO[i]==70)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7559
+  if(merge_data$TESTADA.PARA.CALCULO[i]==71)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7506
+  if(merge_data$TESTADA.PARA.CALCULO[i]==72)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7454
+  if(merge_data$TESTADA.PARA.CALCULO[i]==73)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7402
+  if(merge_data$TESTADA.PARA.CALCULO[i]==74)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7352
+  if(merge_data$TESTADA.PARA.CALCULO[i]==75)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7303
+  if(merge_data$TESTADA.PARA.CALCULO[i]==76)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7255
+  if(merge_data$TESTADA.PARA.CALCULO[i]==77)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7207
+  if(merge_data$TESTADA.PARA.CALCULO[i]==78)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7161
+  if(merge_data$TESTADA.PARA.CALCULO[i]==79)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7116
+  if(merge_data$TESTADA.PARA.CALCULO[i]==80)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.7071
+  if(merge_data$TESTADA.PARA.CALCULO[i]==81 ||merge_data$TESTADA.PARA.CALCULO[i]==82)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6984
+  if(merge_data$TESTADA.PARA.CALCULO[i]==83||merge_data$TESTADA.PARA.CALCULO[i]==84)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6901
+  if(merge_data$TESTADA.PARA.CALCULO[i]==85||merge_data$TESTADA.PARA.CALCULO[i]==86)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.682
+  if(merge_data$TESTADA.PARA.CALCULO[i]==87||merge_data$TESTADA.PARA.CALCULO[i]==88)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6742
+  if(merge_data$TESTADA.PARA.CALCULO[i]==89||merge_data$TESTADA.PARA.CALCULO[i]==90)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6667
+  if(merge_data$TESTADA.PARA.CALCULO[i]==91||merge_data$TESTADA.PARA.CALCULO[i]==92)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6594
+  if(merge_data$TESTADA.PARA.CALCULO[i]==93||merge_data$TESTADA.PARA.CALCULO[i]==94)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6523
+  if(merge_data$TESTADA.PARA.CALCULO[i]==95||merge_data$TESTADA.PARA.CALCULO[i]==96)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6455
+  if(merge_data$TESTADA.PARA.CALCULO[i]==97||merge_data$TESTADA.PARA.CALCULO[i]==98)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6389
+  if(merge_data$TESTADA.PARA.CALCULO[i]==99||merge_data$TESTADA.PARA.CALCULO[i]==100)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6325
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=116 && merge_data$TESTADA.PARA.CALCULO[i]<=120)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5774
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=121 && merge_data$TESTADA.PARA.CALCULO[i]<=125)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5657
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=126 && merge_data$TESTADA.PARA.CALCULO[i]<=130)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5547
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=101 && merge_data$TESTADA.PARA.CALCULO[i]<=105)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.6172
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=106 && merge_data$TESTADA.PARA.CALCULO[i]<=110)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.603
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=111 && merge_data$TESTADA.PARA.CALCULO[i]<=115)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5898
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=131 && merge_data$TESTADA.PARA.CALCULO[i]<=135)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5443
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=136 && merge_data$TESTADA.PARA.CALCULO[i]<=140)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5345
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=141 && merge_data$TESTADA.PARA.CALCULO[i]<=145)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5252
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=146 && merge_data$TESTADA.PARA.CALCULO[i]<=150)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5164
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=151 && merge_data$TESTADA.PARA.CALCULO[i]<=160)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.5
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=161 && merge_data$TESTADA.PARA.CALCULO[i]<=170)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.4851
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=171 && merge_data$TESTADA.PARA.CALCULO[i]<=180)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.4714
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=181 && merge_data$TESTADA.PARA.CALCULO[i]<=190)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.4588
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=191 && merge_data$TESTADA.PARA.CALCULO[i]<=200)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.4472
+  if(merge_data$TESTADA.PARA.CALCULO[i]>=201)merge_data$FATOR.TIPO.DE.PROFUNDIDADE[i]=0.4472
   
   #fator condominio
-  if(merge_data$NUMERO.DO.CONDOMINIO[i]=="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO=1
-  if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO=1.6
+  if(merge_data$NUMERO.DO.CONDOMINIO[i]=="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO[i]=1
+  if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.CONDOMINIO[i]=1.6
   
   #fator de tipo de terreno corrigido em caso de condomínio
-  if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.TERRENO=1.0
+  if(merge_data$NUMERO.DO.CONDOMINIO[i]!="00-0")merge_data$FATOR.TIPO.DE.TERRENO[i]=1.0
   
   #fator de condominio corrigido para terreno encravado e de fundos
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.CONDOMINIO=1
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.CONDOMINIO=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FATOR.TIPO.DE.CONDOMINIO[i]=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FATOR.TIPO.DE.CONDOMINIO[i]=1
   
   #fator de ideal corrigido para terreno encravado e de fundos
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FRACAO.IDEAL=1
-  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FRACAO.IDEAL=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote de fundos") merge_data$FRACAO.IDEAL[i]=1
+  if(merge_data$TIPO.DE.TERRENO[i]=="lote encravado") merge_data$FRACAO.IDEAL[i]=1
   
   
 }
+
+
+save.image("ws.RData")
 
 
 merge_data$vv_terreno="NA"
