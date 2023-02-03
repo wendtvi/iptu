@@ -348,11 +348,12 @@ plot(as.factor(merge_data$tier_iptu_pos_trat),main="Frequência de observações
 merge_data$unir_base_lanc_var=paste(merge_data$AR_UT_UNID,merge_data$AR_TT_UNID,merge_data$PC_TT_UN,merge_data$PC_TT_UN)
 merge_data$unir_base_lanc_var_INDEX=paste(merge_data$INDEX_MERGE,merge_data$unir_base_lanc_var)
 merge_data=merge_data[order(merge_data$unir_base_lanc_var_INDEX),]
+merge_data_final=data.frame()
 t=0
 k=2
 while (k <=nrow(merge_data)){
   merge_data_temp=merge_data[merge_data$unir_base_lanc_var_INDEX==merge_data$unir_base_lanc_var_INDEX[k-1],]
-  merge_data_temp=merge_data_temp[order(merge_data_temp$rel_precos_terr_const,decreasing = TRUE),]
+  merge_data_temp=merge_data_temp[order(merge_data_temp$SCORE_PC_TERR_CONST,decreasing = TRUE),]
   merge_data_final[t,]=merge_data_temp[1,]
   k=1+nrow(merge_data_temp)
   rm(merge_data_temp)
