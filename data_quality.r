@@ -11,19 +11,19 @@ par(mfrow=c(1,1))
 plot(log(merge_data_final$vv),log(merge_data_final$PC_TT_UN), main = "Preço de lançamento vs Valor Venal em log",xlab = "log do Valor Venal",ylab = "log do Preço de Lançamento")
 
 par(mfrow=c(1,2))
-hist(merge_data_final$AREA.DO.TERRENO*merge_data_final$VALOR.DO.M2.DO.TERRENO,breaks = 500,xlim = c(0,8000000),main = "Histograma de dados da base Geosampa", xlab = "valor m² multiplicado pela metragem")
-hist(as.double(merge_data_final$AR_TT_UNID)*as.double(merge_data_final$PC_M2_AT),breaks = 50,xlim = c(0,8000000),main = "Histograma de dados da base de Lançamentos", xlab = "valor m² multiplicado pela metragem")
+hist(merge_data_final$AREA.DO.TERRENO*merge_data_final$VALOR.DO.M2.DO.TERRENO,breaks = 50,xlim = c(0,8000000),main = "Histograma de dados da base Geosampa", xlab = "valor m² multiplicado pela metragem")
+hist(as.double(merge_data_final$AR_TT_UNID)*as.double(merge_data_final$PC_M2_AT),breaks = 20,xlim = c(0,8000000),main = "Histograma de dados da base de Lançamentos", xlab = "valor m² multiplicado pela metragem")
 
 
 par(mfrow=c(1,1))
-plot(as.factor(merge_data$tier_iptu_pos_trat))
-hist((merge_data$aliquota_real),breaks = 20)
+plot(as.factor(merge_data_final$tier_iptu_pos_trat),main="Histograma da nova alíquota nominal")
+hist((merge_data_final$aliquota_real),breaks = 20,main="Histograma da nova alíquota real")
 
 
 #retira observações com valor do terreno = 1 (erros na base)
 merge_data_final=merge_data_final[merge_data_final$AREA.DO.TERRENO!=1,]
 
-
+#####################################################################################################################
 #Gráficos adicionais
 
 merge_data_final$PC_TT_UN=as.double(gsub(",",".",as.character(merge_data_final$PC_TT_UN)))
