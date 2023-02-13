@@ -280,8 +280,10 @@ save.image("ws.RData")
 
 
 merge_data$vv_terreno="NA"
+merge_data$FATOR.TIPO.DE.PROFUNDIDADE[merge_data$FATOR.TIPO.DE.PROFUNDIDADE=="NA"]=1
+merge_data$FATOR.TIPO.DE.TERRENO[merge_data$FATOR.TIPO.DE.TERRENO=="NA"]=1
 merge_data$vv_terreno=merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$FRACAO.IDEAL*
-  merge_data$FATOR.TIPO.DE.PROFUNDIDADE*merge_data$FATOR.TIPO.DE.TERRENO*merge_data$FATOR.TIPO.DE.CONDOMINIO
+  as.numeric(merge_data$FATOR.TIPO.DE.PROFUNDIDADE)*as.numeric(merge_data$FATOR.TIPO.DE.TERRENO)*as.numeric(merge_data$FATOR.TIPO.DE.CONDOMINIO)
 
 #recalcula fator de condominio para casos especiais
 merge_data$indice_condominio=NA
@@ -295,7 +297,7 @@ for (k in 1:length(merge_data$INDEX_MERGE)){
 }
 
 merge_data$vv_terreno=merge_data$AREA.DO.TERRENO*merge_data$VALOR.DO.M2.DO.TERRENO*merge_data$FRACAO.IDEAL*
-  merge_data$FATOR.TIPO.DE.PROFUNDIDADE*merge_data$FATOR.TIPO.DE.TERRENO*merge_data$FATOR.TIPO.DE.CONDOMINIO
+  as.numeric(merge_data$FATOR.TIPO.DE.PROFUNDIDADE)*as.numeric(merge_data$FATOR.TIPO.DE.TERRENO)*as.numeric(merge_data$FATOR.TIPO.DE.CONDOMINIO)
 
 
 merge_data$vv="NA"
@@ -310,13 +312,15 @@ merge_data$tier_iptu_pre_trat=0.01
 merge_data$valor_iptu_pre_trat=merge_data$tier_iptu_pre_trat*merge_data$vv
 plot(log(merge_data$valor_iptu_pre_trat))
 merge_data$tier_iptu_pos_trat=0.01
-merge_data$tier_iptu_pos_trat[merge_data$vv<=50000]=0.008
+merge_data$tier_iptu_pos_trat[merge_data$vv<=20000]=0.000
+merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=50000]>20000]=0.008
 merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=100000]>50000]=0.01
 merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=200000]>100000]=0.012
 merge_data$tier_iptu_pos_trat[merge_data$vv[merge_data$vv<=400000]>200000]=0.014
 merge_data$tier_iptu_pos_trat[merge_data$vv>400000]=0.016
 merge_data$valor_iptu_pos_trat=merge_data$valor_iptu_pre_trat
 
+merge_data$vv_tier20k=0
 merge_data$vv_tier50k=0
 merge_data$vv_tier100k=0
 merge_data$vv_tier200k=0
@@ -324,12 +328,14 @@ merge_data$vv_tier400k=0
 merge_data$vv_tier401k=0
 
 for (j in 1:length(merge_data$tier_iptu_pos_trat)){
-  merge_data$vv_tier50k[j]=min(merge_data$vv[j],50000)
+  merge_data$vv_tier20k[j]=min(merge_data$vv[j],20000)
+  merge_data$vv_tier50k[j]=min(merge_data$vv[j]-20000,50000)
   merge_data$vv_tier100k[j]=min(merge_data$vv[j]-50000,50000)
   merge_data$vv_tier200k[j]=min(merge_data$vv[j]-100000,100000)
   merge_data$vv_tier400k[j]=min(merge_data$vv[j]-200000,200000)
   merge_data$vv_tier401k[j]=merge_data$vv[j]-400000
 }
+merge_data$vv_tier50k[merge_data$vv_tier20k<0]=0
 merge_data$vv_tier50k[merge_data$vv_tier50k<0]=0
 merge_data$vv_tier100k[merge_data$vv_tier100k<0]=0
 merge_data$vv_tier200k[merge_data$vv_tier200k<0]=0
