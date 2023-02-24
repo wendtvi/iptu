@@ -58,7 +58,7 @@ upperbound_2007=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO
 upperbound_2008=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO==2008])+0.5*sd(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO==2008])
 
 
-vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,
                          preco_lan_medio_2006,preco_lan_medio_2007,preco_lan_medio_2008)
@@ -228,7 +228,7 @@ for (k in 1:length(levels(merge_data_final$SUBPREF))){
     upperbound_2008=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$SUBPREF==levels(merge_data_final$SUBPREF)[k]]==2008],na.rm = TRUE)+0.5*sd(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$SUBPREF==levels(merge_data_final$SUBPREF)[k]]==2008],na.rm = TRUE)
     
     
-    vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+    vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                              preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                              preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006,preco_lan_medio_2007,preco_lan_medio_2008)
     vetor_precos_lan_tempo_lowerbound=c(lowerbound_1995,lowerbound_1996,lowerbound_1997,lowerbound_1998,lowerbound_1999,
@@ -486,7 +486,7 @@ upperbound_2007=upperbound_2007+upperbound_1997*0.9040
 upperbound_2008=upperbound_2008+upperbound_1997*1.016
 
 #até 2004
-vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006
                          ,preco_lan_medio_2007,preco_lan_medio_2008)
@@ -728,7 +728,7 @@ upperbound_2007=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO
 upperbound_2008=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tier3]>=tier2]==2008])+sd(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tier3]>=tier2]==2008])
 
 
-vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006,
                          preco_lan_medio_2007,preco_lan_medio_2008)
@@ -895,7 +895,7 @@ upperbound_2007=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO
 upperbound_2008=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tier4]>=tier3]==2008])+sd(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tier4]>=tier3]==2008])
 
 
-vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006,
                          preco_lan_medio_2007,preco_lan_medio_2008)
@@ -985,7 +985,7 @@ upperbound_2007=upperbound_2007+upperbound_1997*0.9040
 upperbound_2008=upperbound_2008+upperbound_1997*1.016
 
 #até 2004
-vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006
                          ,preco_lan_medio_2007,preco_lan_medio_2008)
@@ -1031,7 +1031,7 @@ preco_lan_medio_2007=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXER
 preco_lan_medio_2008=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO==2008]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO==2008])))
 
 
-vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,preco_lan_medio_2006,
                          preco_lan_medio_2007,preco_lan_medio_2008)
@@ -1082,7 +1082,7 @@ preco_lan_medio_2008=preco_lan_medio_2008-preco_lan_medio_1997*1.016
 
 
 #até 2004
-vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
+vetor_precos_lan_tempo=c(preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1999,
                          preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002,
                          preco_lan_medio_2003,preco_lan_medio_2004,preco_lan_medio_2005,
                          preco_lan_medio_2006,preco_lan_medio_2007,preco_lan_medio_2008)
