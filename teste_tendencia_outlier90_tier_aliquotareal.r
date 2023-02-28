@@ -65,12 +65,12 @@ for (i in 2:length(vetor_percentis)){
   
   
   vetor_precos_lan_tempo=c(
-    preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002)
+    log(preco_lan_medio_2000),log(preco_lan_medio_2001),log(preco_lan_medio_2002))
   anos=c(2000,2001,2002)
   
   ###Sem corrigir inflação
   if (i==2){ 
-    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,170000))
+    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica valor de lançamento por ano",ylim = c(11.5,12.1))
     abline(v=2001,col="red")
   }
   lines(y=vetor_precos_lan_tempo,x=anos,col=vetor_cores[i-1])
@@ -78,7 +78,7 @@ for (i in 2:length(vetor_percentis)){
   
   
 }
-legend(2001.5,130000,legend = format(round(vetor_percentis[1:length(vetor_percentis)-1], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
+legend(2001.5,11.75,legend = format(round(vetor_percentis[1:length(vetor_percentis)-1], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
 
 
 
