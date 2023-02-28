@@ -7,7 +7,7 @@ load("~/ws_final.RData")
 merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+vetor_cores=c("red","green","yellow", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
@@ -38,10 +38,10 @@ for (i in 2:length(vetor_percentis)){
   if (i==2){ 
     plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,210000))
     abline(v=2001,col="red")
-    }
+  }
   lines(y=vetor_precos_lan_tempo,x=anos,col=vetor_cores[i-1])
-#legend(1997,1900000,legend = c("x: Limite superior","+: Limite inferior"))
-
+  #legend(1997,1900000,legend = c("x: Limite superior","+: Limite inferior"))
+  
   
 }
 
@@ -59,13 +59,13 @@ for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
   
-   preco_lan_medio_2000=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2000]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2000])))
+  preco_lan_medio_2000=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2000]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2000])))
   preco_lan_medio_2001=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2001]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2001])))
   preco_lan_medio_2002=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2002]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2002])))
-
+  
   
   vetor_precos_lan_tempo=c(
-                           preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002)
+    preco_lan_medio_2000,preco_lan_medio_2001,preco_lan_medio_2002)
   anos=c(2000,2001,2002)
   
   ###Sem corrigir inflação
@@ -88,7 +88,7 @@ load("~/ws_final.RData")
 merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black","red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+vetor_cores=c("red","green","yellow", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black","red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 
 
 for (i in 2:length(vetor_percentis)){
@@ -120,7 +120,7 @@ for (i in 2:length(vetor_percentis)){
   
   ###Sem corrigir inflação
   if (i==2){ 
-    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(11.5,13))
+    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica valor de lançamento por ano e percentil (limite inferior)",ylim = c(11.5,12.5))
     abline(v=2001,col="red")
   }
   lines(y=vetor_precos_lan_tempo,x=anos,col=vetor_cores[i-1])
@@ -128,6 +128,7 @@ for (i in 2:length(vetor_percentis)){
   
   
 }
+legend(1996,12.5,legend = format(round(vetor_percentis[1:length(vetor_percentis)-1], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
 
 
 #corrigi inflacao
@@ -141,7 +142,7 @@ load("~/ws_final.RData")
 merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black","red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+vetor_cores=c("red","green","yellow", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black","red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
@@ -162,7 +163,7 @@ for (i in 2:length(vetor_percentis)){
   preco_lan_medio_2007=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2007]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2007])))
   preco_lan_medio_2008=prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2008]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<tiert1]>=tiert0]==2008])))
   
-
+  
   
   preco_lan_medio_1997=preco_lan_medio_1997-preco_lan_medio_1997*0
   preco_lan_medio_1998=preco_lan_medio_1998-preco_lan_medio_1997*0.0165
