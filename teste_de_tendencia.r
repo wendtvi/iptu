@@ -7,7 +7,6 @@
 #########################################################################
 #Gráficos de pre trend para valor médio de lançamento
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 boxplot((merge_data_final$PC_TT_UN~merge_data_final$ANO.DO.EXERCICIO))
 
@@ -177,7 +176,6 @@ points(x=anos,y=vetor_precos_lan_tempo_upperbound,pch=4)
 #Por bairro
 #sub_pref_exclui=c(4,6,7,8)
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 for (k in 1:length(levels(merge_data_final$SUBPREF))){
   par(mfrow=c(3,2))
@@ -345,7 +343,6 @@ for (k in 1:length(levels(merge_data_final$SUBPREF))){
 #########################################################################
 #construindo tier  da aliquota real
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 #tier 1
 par(mfrow=c(2,1))
@@ -511,7 +508,6 @@ points(x=anos,y=vetor_precos_lan_tempo_upperbound,pch=4)
 
 #tier 2
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 par(mfrow=c(2,1))
 tier2=0.9429696  
@@ -677,7 +673,6 @@ points(x=anos,y=vetor_precos_lan_tempo_upperbound,pch=4)
 
 #tier 3
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 par(mfrow=c(2,1))
 tier2=0.9429696  
@@ -844,7 +839,6 @@ points(x=anos,y=vetor_precos_lan_tempo_upperbound,pch=4)
 
 #tier 4
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 par(mfrow=c(2,1))
 tier3=1.0631982
@@ -1013,7 +1007,6 @@ quantile(merge_data_final$aliquota_real)
 
 #ln da Média geométrica
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 par(mfrow=c(2,1))
 
