@@ -9,6 +9,8 @@
 load("~/ws_final.RData")
 merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
+boxplot((merge_data_final$PC_TT_UN~merge_data_final$ANO.DO.EXERCICIO))
+
 par(mfrow=c(2,1))
 
 preco_lan_medio_1995=mean(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO==1995])
