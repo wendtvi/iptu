@@ -11,6 +11,29 @@ base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO.DO.EXERC
                       merge_data_final$valor_iptu_pos_trat,merge_data_final$vv_tier20k,merge_data_final$vv_tier50k,merge_data_final$vv_tier100k,merge_data_final$vv_tier200k,merge_data_final$vv_tier400k,
                       merge_data_final$vv_tier401k, merge_data_final$aliquota_real)   
 
+##############################################################
+##################DESCRITIVAS#################################
+##############################################################
+table(base_final$merge_data_final.ANO.DO.EXERCICIO)/length(base_final$merge_data_final.ANO.DO.EXERCICIO)
+table(base_final$merge_data_final.SUBPREF)/length(base_final$merge_data_final.SUBPREF)
+table(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)/length(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)
+table(base_final$merge_data_final.ELEV)/length(base_final$merge_data_final.ELEV)
+table(base_final$merge_data_final.FATOR.DE.OBSOLESCENCIA)
+table(base_final$merge_data_final.FATOR.TIPO.DE.CONDOMINIO)
+table(base_final$merge_data_final.FATOR.TIPO.DE.PROFUNDIDADE)
+table(base_final$merge_data_final.FATOR.TIPO.DE.TERRENO)
+table(base_final$)
+summary(base_final$merge_data_final.PC_TT_UN)
+summary(base_final$merge_data_final.AR_UT_UNID)
+summary(base_final$merge_data_final.vv_construcao)
+summary(base_final$merge_data_final.vv_terreno)
+summary(base_final$merge_data_final.vv)
+table(base_final$merge_data_final.Binaria_pos_trat)/length(base_final$merge_data_final.Binaria_pos_trat)
+table(base_final$merge_data_final.tier_iptu_pre_trat)/length(base_final$merge_data_final.tier_iptu_pre_trat)
+table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_data_final.tier_iptu_pos_trat)
+
+
+
 base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1995)
 names(base_final)[ncol(base_final)]="binaria_1995"
 base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1996)
