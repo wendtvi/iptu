@@ -32,6 +32,18 @@ ipca=read.csv2("ipca.csv")
   }
 }
 
+
+base_final$merge_data_final.tier_iptu_pos_trat=0.01
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv<=20000]=0.000
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv>20000]<=50000]=0.008
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=100000]>50000]=0.01
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=200000]>100000]=0.012
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=400000]>200000]=0.014
+base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv>400000]=0.016
+
+table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_data_final.tier_iptu_pos_trat)
+
+
 ##############################################################
 ##################DESCRITIVAS#################################
 ##############################################################
@@ -90,6 +102,9 @@ base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquot
 names(base_final)[ncol(base_final)]="Grupo_controle"
 
 names(base_final)=gsub("merge_data_final.",names(base_final),replacement = "")
+
+
+
 
 #DID 2X2
 base_final_lm=rbind(base_final[base_final$binaria_2001==1,],base_final[base_final$binaria_2002==1,])
