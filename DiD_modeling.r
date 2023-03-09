@@ -1,47 +1,3 @@
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
-
-base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO.DO.EXERCICIO,merge_data_final$NUMERO.DO.CONDOMINIO,merge_data_final$BAIRRO.DO.IMOVEL,
-                      merge_data_final$CEP.DO.IMOVEL,merge_data_final$QUANTIDADE.DE.ESQUINAS.FRENTES,merge_data_final$FRACAO.IDEAL,merge_data_final$ANO.DA.CONSTRUCAO.CORRIGIDO,
-                      merge_data_final$TIPO.DE.TERRENO,merge_data_final$TIPO.DE.USO.DO.IMOVEL,merge_data_final$FATOR.DE.OBSOLESCENCIA,merge_data_final$SCORE_STR_INDEX,
-                      merge_data_final$SCORE_PC_TERR_CONST,merge_data_final$SUBPREF,merge_data_final$DORM_UNID,merge_data_final$BANH_UNID,merge_data_final$GAR_UNID,
-                      merge_data_final$ELEV,merge_data_final$COB,merge_data_final$BLOCOS,merge_data_final$ANDARES,merge_data_final$AR_UT_UNID,merge_data_final$AR_TT_UNID,
-                      merge_data_final$GAR_EMP,merge_data_final$PC_TT_UN,merge_data_final$AR_TT_UNID,merge_data_final$AR_UT_UNID,merge_data_final$vv_construcao,merge_data_final$FATOR.TIPO.DE.PROFUNDIDADE,
-                      merge_data_final$FATOR.TIPO.DE.TERRENO,merge_data_final$FATOR.TIPO.DE.CONDOMINIO,merge_data_final$SUBDIVISAO.URBANA,merge_data_final$vv_terreno,merge_data_final$indice_condominio,
-                      merge_data_final$vv,merge_data_final$Binaria_pos_trat,merge_data_final$tier_iptu_pre_trat,merge_data_final$valor_iptu_pre_trat,merge_data_final$tier_iptu_pos_trat,
-                      merge_data_final$valor_iptu_pos_trat,merge_data_final$vv_tier20k,merge_data_final$vv_tier50k,merge_data_final$vv_tier100k,merge_data_final$vv_tier200k,merge_data_final$vv_tier400k,
-                      merge_data_final$vv_tier401k, merge_data_final$aliquota_real)   
-
-
-base_final_temp=base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="resid\xeancia coletiva (mais de uma resid\xeancia no lote), exclusive corti\xe7o",]
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="flat, residencial",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="apartamento",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="flat, n\xe3o residencial",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="pr\xe9dio com uso exclusivamente residencial, n\xe3o em condom\xednio",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="resid\xeancia",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="resid\xeancia e outro uso (predomin\xe2ncia residencial)",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="pr\xe9dio com uso misto, predomin\xe2ncia de uso residencial, n\xe3o em condom\xednio",])
-base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL=="resid\xeancia",])
-
-base_final=base_final_temp
-
-ipca=read.csv2("ipca.csv")
-
-  for (i in 1:nrow(base_final)){
-    for (k in 1:nrow(ipca)){
-    if(ipca$YEAR[k]==base_final$merge_data_final.ANO.DO.EXERCICIO[i])base_final$merge_data_final.vv[i]=base_final$merge_data_final.vv[i]*ipca[k,4]
-  }
-}
-
-
-base_final$merge_data_final.tier_iptu_pos_trat=0.01
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv<=20000]=0.000
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv>20000]<=50000]=0.008
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=100000]>50000]=0.01
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=200000]>100000]=0.012
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv[base_final$merge_data_final.vv<=400000]>200000]=0.014
-base_final$merge_data_final.tier_iptu_pos_trat[base_final$merge_data_final.vv>400000]=0.016
-
-table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_data_final.tier_iptu_pos_trat)
 
 
 ##############################################################
@@ -60,6 +16,7 @@ summary(base_final$merge_data_final.AR_UT_UNID)
 summary(base_final$merge_data_final.vv_construcao)
 summary(base_final$merge_data_final.vv_terreno)
 summary(base_final$merge_data_final.vv)
+summary(base_final$merge_data_final.aliquota_real)
 table(base_final$merge_data_final.Binaria_pos_trat)/length(base_final$merge_data_final.Binaria_pos_trat)
 table(base_final$merge_data_final.tier_iptu_pre_trat)/length(base_final$merge_data_final.tier_iptu_pre_trat)
 table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_data_final.tier_iptu_pos_trat)
@@ -96,26 +53,148 @@ base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.
 names(base_final)[ncol(base_final)]="binaria_2008"
 
 
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real<=0.89)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real<0.89)
 names(base_final)[ncol(base_final)]="Grupo_tratado"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real>0.89)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real>=0.89)
 names(base_final)[ncol(base_final)]="Grupo_controle"
+
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)<=2001)
+names(base_final)[ncol(base_final)]="Pre_tratamento"
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)>2001)
+names(base_final)[ncol(base_final)]="Pos_tratamento"
+
+
+table(base_final$Grupo_controle)/length(base_final$Grupo_controle)
+table(base_final$Pre_tratamento)/length(base_final$Pre_tratamento)
 
 names(base_final)=gsub("merge_data_final.",names(base_final),replacement = "")
 
 
 
-
+#######################################################
+#################SEM COVARIAVEIS#######################
+#######################################################
 #DID 2X2
-base_final_lm=rbind(base_final[base_final$binaria_2001==1,],base_final[base_final$binaria_2002==1,])
+base_final_lm=base_final[as.numeric(base_final$ANO.DO.EXERCICIO)<2009,]
+base_final_lm=base_final[as.numeric(base_final$ANO.DO.EXERCICIO)>1994,]
 #Regressão 1 - sem cov
-lm_1=lm((base_final_lm$PC_TT_UN)~base_final_lm$binaria_2002+base_final_lm$Grupo_tratado+
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$Pos_tratamento*base_final_lm$Grupo_tratado+base_final_lm$Grupo_tratado+base_final_lm$Pos_tratamento)
+summary(lm_1)
+
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1995==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_1995+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1995*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1996==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_1996+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1996*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1997==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_1997+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1997*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1998==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_1998+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1998*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1999==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_1999+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1999*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_2000==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2000+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_2000*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_2001==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2001+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_2001*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_2002==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2002+base_final_lm$Grupo_tratado+
           base_final_lm$binaria_2002*base_final_lm$Grupo_tratado)
 summary(lm_1)
 
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_2003==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2003+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_2003*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_2004==1,])
+#base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2004+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_2004*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+
+
+#Base completa
+base_final_lm=base_final
+#Regressão 1 - sem cov
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2004+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_2004*base_final_lm$Grupo_tratado+base_final_lm$binaria_2003+
+          base_final_lm$binaria_2003*base_final_lm$Grupo_tratado+base_final_lm$binaria_2002+
+          base_final_lm$binaria_2002*base_final_lm$Grupo_tratado+base_final_lm$binaria_2001+
+          base_final_lm$binaria_2001*base_final_lm$Grupo_tratado+base_final_lm$binaria_2000+
+          base_final_lm$binaria_2000*base_final_lm$Grupo_tratado+base_final_lm$binaria_1999+
+          base_final_lm$binaria_1999*base_final_lm$Grupo_tratado+base_final_lm$binaria_1998+
+          base_final_lm$binaria_1998*base_final_lm$Grupo_tratado+base_final_lm$binaria_1997+
+          base_final_lm$binaria_1997*base_final_lm$Grupo_tratado+base_final_lm$binaria_1996+
+          base_final_lm$binaria_1996*base_final_lm$Grupo_tratado+base_final_lm$binaria_1995+
+          base_final_lm$binaria_1995*base_final_lm$Grupo_tratado)
+summary(lm_1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #Regressão 2 - cov elevador, area util
-lm_2=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$ELEV+base_final_lm$AR_UT_UNID+base_final_lm$binaria_2002+base_final_lm$Grupo_tratado+
-          base_final_lm$binaria_2002*base_final_lm$Grupo_tratado)
+lm_2=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$ELEV+base_final_lm$AR_UT_UNID+base_final_lm$binaria_1995+base_final_lm$Grupo_tratado+
+          base_final_lm$binaria_1995*base_final_lm$Grupo_tratado)
 summary(lm_2)
 
 
