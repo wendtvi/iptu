@@ -7,6 +7,7 @@ table(base_final$merge_data_final.ANO.DO.EXERCICIO)/length(base_final$merge_data
 table(base_final$merge_data_final.SUBPREF)/length(base_final$merge_data_final.SUBPREF)
 table(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)/length(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)
 table(base_final$merge_data_final.ELEV)/length(base_final$merge_data_final.ELEV)
+table(base_final$merge_data_final.BANH_UNID)/length(base_final$merge_data_final.BANH_UNID)
 table(base_final$merge_data_final.FATOR.DE.OBSOLESCENCIA)
 table(base_final$merge_data_final.FATOR.TIPO.DE.CONDOMINIO)
 table(base_final$merge_data_final.FATOR.TIPO.DE.PROFUNDIDADE)
@@ -53,19 +54,20 @@ base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.
 names(base_final)[ncol(base_final)]="binaria_2008"
 
 
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real<0.89)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real>0.93)
 names(base_final)[ncol(base_final)]="Grupo_tratado"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real>=0.89)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real<=0.93)
 names(base_final)[ncol(base_final)]="Grupo_controle"
 
-base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)<=2001)
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)<2002)
 names(base_final)[ncol(base_final)]="Pre_tratamento"
-base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)>2001)
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)>=2002)
 names(base_final)[ncol(base_final)]="Pos_tratamento"
 
 
-table(base_final$Grupo_controle)/length(base_final$Grupo_controle)
-table(base_final$Pre_tratamento)/length(base_final$Pre_tratamento)
+table(base_final$Grupo_tratado)/length(base_final$Grupo_tratado)
+table(base_final$Pos_tratamento)/length(base_final$Pos_tratamento)
+table(base_final$Pos_tratamento*base_final$Grupo_tratado)/length(base_final$Pos_tratamento)
 
 names(base_final)=gsub("merge_data_final.",names(base_final),replacement = "")
 
@@ -76,13 +78,42 @@ names(base_final)=gsub("merge_data_final.",names(base_final),replacement = "")
 #######################################################
 #DID 2X2
 base_final_lm=base_final[as.numeric(base_final$ANO.DO.EXERCICIO)<2009,]
-base_final_lm=base_final[as.numeric(base_final$ANO.DO.EXERCICIO)>1994,]
+base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO.DO.EXERCICIO)>1994,]
+#base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO.DO.EXERCICIO)!=2001,]
 #Regressão 1 - sem cov
-lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$Pos_tratamento*base_final_lm$Grupo_tratado+base_final_lm$Grupo_tratado+base_final_lm$Pos_tratamento)
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$Pos_tratamento*base_final_lm$Grupo_tratado+base_final_lm$Grupo_tratado+base_final_lm$Pos_tratamento+
+          base_final_lm$ELEV+base_final_lm$SUBPREF)
 summary(lm_1)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+options(scipen=999)
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################
+#NAO USEI
 base_final_lm=rbind(base_final[base_final$binaria_2000==1,],base_final[base_final$binaria_1995==1,])
 #base_final_lm=base_final
 #Regressão 1 - sem cov
@@ -165,7 +196,11 @@ summary(lm_1)
 #Base completa
 base_final_lm=base_final
 #Regressão 1 - sem cov
-lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2004+base_final_lm$Grupo_tratado+
+lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2004+base_final_lm$Grupo_tratado+base_final_lm$binaria_2008+
+          base_final_lm$binaria_2008*base_final_lm$Grupo_tratado+base_final_lm$binaria_2007+
+          base_final_lm$binaria_2007*base_final_lm$Grupo_tratado+base_final_lm$binaria_2006+
+          base_final_lm$binaria_2006*base_final_lm$Grupo_tratado+base_final_lm$binaria_2005+
+          base_final_lm$binaria_2005*base_final_lm$Grupo_tratado+
           base_final_lm$binaria_2004*base_final_lm$Grupo_tratado+base_final_lm$binaria_2003+
           base_final_lm$binaria_2003*base_final_lm$Grupo_tratado+base_final_lm$binaria_2002+
           base_final_lm$binaria_2002*base_final_lm$Grupo_tratado+base_final_lm$binaria_2001+
@@ -175,12 +210,19 @@ lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$binaria_2004+base_final_lm$Gru
           base_final_lm$binaria_1998*base_final_lm$Grupo_tratado+base_final_lm$binaria_1997+
           base_final_lm$binaria_1997*base_final_lm$Grupo_tratado+base_final_lm$binaria_1996+
           base_final_lm$binaria_1996*base_final_lm$Grupo_tratado+base_final_lm$binaria_1995+
-          base_final_lm$binaria_1995*base_final_lm$Grupo_tratado)
+          base_final_lm$binaria_1995*base_final_lm$Grupo_tratado+base_final_lm$ELEV+base_final_lm$AR_UT_UNID+base_final_lm$SUBPREF+base_final_lm$BANH_UNID)
 summary(lm_1)
+coef_regressao=c(0.40411,0.28831,	0.81627,	0.52449,	0.44266,	0.57778,	0.78585,0.74316,0.87510,0.86783,0.81749,0.98784,0.78772	)
+anos=c(1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008)
+residuos_reg=c(0.14300,0.14232,0.13602,0.13025,0.12839,0.13039,0.12761,0.12488,0.12306,0.12282,0.12462,0.11285,0.1204)
+												
 
 
 
-
+plot(y=coef_regressao,x=anos,type = 'l',ylim = c(0.15,1.2))
+lines(y=coef_regressao+residuos_reg,x=anos,col="blue")
+lines(y=coef_regressao-residuos_reg,x=anos,col="green")
+abline(v=2001,col="red")
 
 
 
