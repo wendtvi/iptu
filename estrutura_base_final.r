@@ -1,5 +1,7 @@
+#setwd("C:/Users/vitor/Downloads")
+
 load("~/ws_final.RData")
-merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.2))[5],]
+merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.1))[10],]
 
 base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO.DO.EXERCICIO,merge_data_final$NUMERO.DO.CONDOMINIO,merge_data_final$BAIRRO.DO.IMOVEL,
                       merge_data_final$CEP.DO.IMOVEL,merge_data_final$QUANTIDADE.DE.ESQUINAS.FRENTES,merge_data_final$FRACAO.IDEAL,merge_data_final$ANO.DA.CONSTRUCAO.CORRIGIDO,
@@ -59,7 +61,7 @@ base_final_temp=rbind(base_final_temp,base_final[base_final$merge_data_final.vv>
 
 base_final=base_final_temp
 
-#base_final=base_final[base_final$merge_data_final.vv<=475582.27,]
+base_final=base_final[base_final$merge_data_final.vv<=518318.897,]
 
 
 table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_data_final.tier_iptu_pos_trat)
@@ -93,7 +95,6 @@ base_final$merge_data_final.valor_iptu_pos_trat[base_final$merge_data_final.vv<=
 
 
 base_final$merge_data_final.aliquota_real=base_final$merge_data_final.valor_iptu_pos_trat/base_final$merge_data_final.valor_iptu_pre_trat
-
 
 
 
