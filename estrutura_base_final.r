@@ -74,7 +74,7 @@ base_final$merge_data_final.vv_tier200k=0
 base_final$merge_data_final.vv_tier400k=0
 base_final$merge_data_final.vv_tier401k=0
 
-for (j in 1:length(base_final$tier_iptu_pos_trat)){
+for (j in 1:length(base_final$merge_data_final.tier_iptu_pos_trat)){
   base_final$merge_data_final.vv_tier20k[j]=min(base_final$merge_data_final.vv[j],20000)
   base_final$merge_data_final.vv_tier50k[j]=min(base_final$merge_data_final.vv[j]-20000,50000)
   base_final$merge_data_final.vv_tier100k[j]=min(base_final$merge_data_final.vv[j]-50000,50000)
