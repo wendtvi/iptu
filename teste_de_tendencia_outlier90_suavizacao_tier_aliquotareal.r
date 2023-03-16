@@ -6,14 +6,15 @@
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN>quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[2],]
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
-vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+#vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
+vetor_percentis=c(0,0.95,1,1.05,2)
+vetor_cores=c("red","green","blue", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
-  tiert0_inf=vetor_percentis[i-1]
+  tiert0_inf=vetor_percentis[1]
   tiert1_inf=vetor_percentis[i]
   
   merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0_inf,]
-  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<tiert1_inf,]
+  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<=tiert1_inf,]
   
   
   
@@ -37,7 +38,7 @@ for (i in 2:length(vetor_percentis)){
   tiert1_sup=vetor_percentis[length(vetor_percentis)]
   
   merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0_sup,]
-  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<tiert1_sup,]
+  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<=tiert1_sup,]
   
   
   sup_preco_lan_medio_1995=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO.DO.EXERCICIO==1995]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO.DO.EXERCICIO==1995])))
@@ -67,7 +68,7 @@ for (i in 2:length(vetor_percentis)){
   anos=c(1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008)
   
   ###Sem corrigir inflação
-  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,210000))
+  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,300000),type = 'l')
   abline(v=2001,col="red")
   lines(y=inf_vetor_precos_lan_tempo,x=anos,col="red")
   lines(y=sup_vetor_precos_lan_tempo,x=anos,col="blue")
@@ -81,10 +82,10 @@ for (i in 2:length(vetor_percentis)){
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN>quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[2],]
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
-vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+#vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
+vetor_cores=c("red","green","blue", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
-  tiert0_inf=vetor_percentis[i-1]
+  tiert0_inf=vetor_percentis[1]
   tiert1_inf=vetor_percentis[i]
   
   merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0_inf,]
@@ -136,7 +137,7 @@ for (i in 2:length(vetor_percentis)){
   anos=c(2000,2001,2002)
   
   ###Sem corrigir inflação
-  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,210000))
+  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Média geométrica valor de lançamento por ano",ylim = c(100000,210000),type = 'l')
   abline(v=2001,col="red")
   lines(y=inf_vetor_precos_lan_tempo,x=anos,col="red")
   lines(y=sup_vetor_precos_lan_tempo,x=anos,col="blue")
@@ -152,10 +153,10 @@ for (i in 2:length(vetor_percentis)){
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN>quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[2],]
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
-vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
-vetor_cores=c("red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
+#vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.1))
+vetor_cores=c("red","green","blue", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
-  tiert0_inf=vetor_percentis[i-1]
+  tiert0_inf=vetor_percentis[1]
   tiert1_inf=vetor_percentis[i]
   
   merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0_inf,]
@@ -213,12 +214,11 @@ for (i in 2:length(vetor_percentis)){
   anos=c(1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008)
   
   ###Sem corrigir inflação
-  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica valor de lançamento por ano e percentil de alíq real",ylim = c(11,13),col="white")
+  plot(y=inf_vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica valor de lançamento por ano",ylim = c(11,13),col="white")
   abline(v=2001,col="red")
   lines(y=inf_vetor_precos_lan_tempo,x=anos,col="red")
   lines(y=sup_vetor_precos_lan_tempo,x=anos,col="blue")
   legend(2004,11.5,legend = c(paste("<",format(round(tiert1_inf, 2), nsmall = 2)),paste(">",format(round(tiert0_sup, 2), nsmall = 2))),col = c("red","blue"),cex = 1,fill  = c("red","blue"))
   
 }
-
 
