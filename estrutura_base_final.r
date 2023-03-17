@@ -3,7 +3,7 @@
 load("~/ws_final.RData")
 merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.05))[18],]
 
-base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO.DO.EXERCICIO,merge_data_final$NUMERO.DO.CONDOMINIO,merge_data_final$BAIRRO.DO.IMOVEL,
+base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO_LAN,merge_data_final$NUMERO.DO.CONDOMINIO,merge_data_final$BAIRRO.DO.IMOVEL,
                       merge_data_final$CEP.DO.IMOVEL,merge_data_final$QUANTIDADE.DE.ESQUINAS.FRENTES,merge_data_final$FRACAO.IDEAL,merge_data_final$ANO.DA.CONSTRUCAO.CORRIGIDO,
                       merge_data_final$TIPO.DE.TERRENO,merge_data_final$TIPO.DE.USO.DO.IMOVEL,merge_data_final$FATOR.DE.OBSOLESCENCIA,merge_data_final$SCORE_STR_INDEX,
                       merge_data_final$SCORE_PC_TERR_CONST,merge_data_final$SUBPREF,merge_data_final$DORM_UNID,merge_data_final$BANH_UNID,merge_data_final$GAR_UNID,
@@ -31,13 +31,13 @@ ipca=read.csv2("ipca.csv")
 
 for (i in 1:nrow(base_final)){
   for (k in 1:nrow(ipca)){
-    if(ipca$YEAR[k]==base_final$merge_data_final.ANO.DO.EXERCICIO[i])base_final$merge_data_final.vv[i]=base_final$merge_data_final.vv[i]*ipca[k,4]
+    if(ipca$YEAR[k]==base_final$merge_data_final.ANO_LAN[i])base_final$merge_data_final.vv[i]=base_final$merge_data_final.vv[i]*ipca[k,4]
   }
 }
 
 #for (i in 1:nrow(base_final)){
 #  for (k in 1:nrow(ipca)){
-#    if(ipca$YEAR[k]==base_final$merge_data_final.ANO.DO.EXERCICIO[i])base_final$merge_data_final.PC_TT_UN[i]=base_final$merge_data_final.PC_TT_UN[i]*ipca[k,4]
+#    if(ipca$YEAR[k]==base_final$merge_data_final.ANO_LAN[i])base_final$merge_data_final.PC_TT_UN[i]=base_final$merge_data_final.PC_TT_UN[i]*ipca[k,4]
 #  }
 #}
 
@@ -97,3 +97,5 @@ base_final$merge_data_final.valor_iptu_pos_trat[base_final$merge_data_final.vv<=
 base_final$merge_data_final.aliquota_real=base_final$merge_data_final.valor_iptu_pos_trat/base_final$merge_data_final.valor_iptu_pre_trat
 
 
+merge_data_final=base_final
+names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replacement = "")
