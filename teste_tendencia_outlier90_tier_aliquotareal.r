@@ -19,8 +19,8 @@ names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replace
 
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-vetor_percentis=c(0,0.85,1.15,2)
-vetor_cores=c("red","green","blue", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
+vetor_percentis=c(0,0.9,1.10,max(merge_data_final_temp$aliquota_real))
+vetor_cores=c("red","black","dimgray", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
@@ -71,7 +71,6 @@ legend(1996,230000,legend = format(round(vetor_percentis[1:length(vetor_percenti
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-vetor_cores=c("red","green","blue", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
@@ -109,8 +108,6 @@ legend(2001.5,11.4,legend = format(round(vetor_percentis[1:length(vetor_percenti
 #merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-vetor_cores=c("red","green","blue", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black","red","green","yellow", "blue", "pink", "gray", "orange", "cyan", "chocolate","black")
-
 
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
@@ -144,7 +141,7 @@ for (i in 2:length(vetor_percentis)){
   
   ###Sem corrigir inflação
   if (i==2){ 
-    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica valor de lançamento por ano",ylim = c(11.30,13),type = 'l')
+    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica do valor de lançamento por ano",ylim = c(11.30,13),type = 'l',ylab = "Preço de lançamento")
     abline(v=2001,col="red")
   }
   lines(y=vetor_precos_lan_tempo,x=anos,col=vetor_cores[i-1])
@@ -152,4 +149,4 @@ for (i in 2:length(vetor_percentis)){
   
   
 }
-legend(1996,13,legend = format(round(vetor_percentis[1:length(vetor_percentis)-1], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
+legend(1996,13,legend = format(round(vetor_percentis[2:length(vetor_percentis)], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
