@@ -19,7 +19,7 @@ names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replace
 
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-vetor_percentis=c(0,0.9,1.10,max(merge_data_final_temp$aliquota_real))
+vetor_percentis=c(0,0.9,1.10,max(merge_data_final$aliquota_real))
 vetor_cores=c("red","black","dimgray", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
@@ -150,3 +150,4 @@ for (i in 2:length(vetor_percentis)){
   
 }
 legend(1996,13,legend = format(round(vetor_percentis[2:length(vetor_percentis)], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
+
