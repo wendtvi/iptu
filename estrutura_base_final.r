@@ -89,7 +89,9 @@ base_final$merge_data_final.vv_tier200k[base_final$merge_data_final.vv_tier200k<
 base_final$merge_data_final.vv_tier400k[base_final$merge_data_final.vv_tier400k<0]=0
 base_final$merge_data_final.vv_tier401k[base_final$merge_data_final.vv_tier401k<0]=0
 
-#base_final$merge_data_final.valor_iptu_pos_trat=base_final$merge_data_final.valor_iptu_pre_trat
+base_final$merge_data_final.valor_iptu_pre_trat=base_final$merge_data_final.vv*base_final$merge_data_final.tier_iptu_pre_trat
+
+base_final$merge_data_final.valor_iptu_pos_trat=base_final$merge_data_final.valor_iptu_pre_trat
 base_final$merge_data_final.valor_iptu_pos_trat=base_final$merge_data_final.valor_iptu_pos_trat+(base_final$merge_data_final.vv_tier50k*(-0.002)+base_final$merge_data_final.vv_tier100k*0+base_final$merge_data_final.vv_tier200k*0.002+
                                                                                                    base_final$merge_data_final.vv_tier400k*0.004+base_final$merge_data_final.vv_tier401k*0.006)
 base_final$merge_data_final.valor_iptu_pos_trat[base_final$merge_data_final.vv<=20000]=0
