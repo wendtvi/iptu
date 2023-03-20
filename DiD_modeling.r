@@ -1,9 +1,10 @@
-
+#install.packages("fixest")
+library(fixest)
 
 ##############################################################
 ##################DESCRITIVAS#################################
 ##############################################################
-table(base_final$merge_data_final.ANO.DO.EXERCICIO)/length(base_final$merge_data_final.ANO.DO.EXERCICIO)
+table(base_final$merge_data_final.ANO_LAN)/length(base_final$merge_data_final.ANO_LAN)
 table(base_final$merge_data_final.SUBPREF)/length(base_final$merge_data_final.SUBPREF)
 table(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)/length(base_final$merge_data_final.TIPO.DE.USO.DO.IMOVEL)
 table(base_final$merge_data_final.ELEV)/length(base_final$merge_data_final.ELEV)
@@ -24,46 +25,49 @@ table(base_final$merge_data_final.tier_iptu_pos_trat)/length(base_final$merge_da
 
 
 
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1995)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==1995)
 names(base_final)[ncol(base_final)]="binaria_1995"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1996)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==1996)
 names(base_final)[ncol(base_final)]="binaria_1996"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1997)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==1997)
 names(base_final)[ncol(base_final)]="binaria_1997"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1998)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==1998)
 names(base_final)[ncol(base_final)]="binaria_1998"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==1999)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==1999)
 names(base_final)[ncol(base_final)]="binaria_1999"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2000)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2000)
 names(base_final)[ncol(base_final)]="binaria_2000"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2001)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2001)
 names(base_final)[ncol(base_final)]="binaria_2001"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2002)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2002)
 names(base_final)[ncol(base_final)]="binaria_2002"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2003)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2003)
 names(base_final)[ncol(base_final)]="binaria_2003"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2004)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2004)
 names(base_final)[ncol(base_final)]="binaria_2004"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2005)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2005)
 names(base_final)[ncol(base_final)]="binaria_2005"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2006)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2006)
 names(base_final)[ncol(base_final)]="binaria_2006"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2007)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2007)
 names(base_final)[ncol(base_final)]="binaria_2007"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO==2008)
+base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.ANO_LAN==2008)
 names(base_final)[ncol(base_final)]="binaria_2008"
 
-
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real>0.93)
+base_final[,length(base_final)+1]=0
+for(k in 1:length(base_final$merge_data_final.INDEX_MERGE)){
+  if(base_final$merge_data_final.aliquota_real[k]>0.9){
+    if(base_final$merge_data_final.aliquota_real[k]<1.10){
+      base_final[k,length(base_final)]=1
+    }
+  }
+}
 names(base_final)[ncol(base_final)]="Grupo_tratado"
-base_final[,length(base_final)+1]=as.numeric(base_final$merge_data_final.aliquota_real<=0.93)
-names(base_final)[ncol(base_final)]="Grupo_controle"
 
-base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)<2002)
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO_LAN)<2002)
 names(base_final)[ncol(base_final)]="Pre_tratamento"
-base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO.DO.EXERCICIO)>=2002)
+base_final[,length(base_final)+1]=as.numeric(as.numeric(base_final$merge_data_final.ANO_LAN)>=2002)
 names(base_final)[ncol(base_final)]="Pos_tratamento"
-
 
 table(base_final$Grupo_tratado)/length(base_final$Grupo_tratado)
 table(base_final$Pos_tratamento)/length(base_final$Pos_tratamento)
@@ -77,16 +81,27 @@ names(base_final)=gsub("merge_data_final.",names(base_final),replacement = "")
 #################SEM COVARIAVEIS#######################
 #######################################################
 #DID 2X2
-base_final_lm=base_final[as.numeric(base_final$ANO.DO.EXERCICIO)<2009,]
-base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO.DO.EXERCICIO)>1994,]
-#base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO.DO.EXERCICIO)!=2001,]
+base_final[,length(base_final)+1]=0
+for(k in 1:length(base_final$INDEX_MERGE)){
+  if(base_final$aliquota_real[k]>0){
+    if(base_final$aliquota_real[k]<0.9){
+      base_final[k,length(base_final)]=1
+    }
+  }
+}
+base_final_lm=base_final[base_final[,length(base_final)]==0,]
+
+base_final_lm=base_final[as.numeric(base_final$ANO_LAN)<2003,]
+base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO_LAN)>2000,]
+#base_final_lm=base_final_lm[as.numeric(base_final_lm$ANO_LAN)!=2001,]
 #Regressão 1 - sem cov
 lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$Pos_tratamento*base_final_lm$Grupo_tratado+base_final_lm$Grupo_tratado+base_final_lm$Pos_tratamento+
           base_final_lm$ELEV+base_final_lm$SUBPREF)
 summary(lm_1)
 
-
-
+did=feols(log(PC_TT_UN) ~(Grupo_tratado):i(ANO_LAN,2001),data = base_final_lm)
+summary(did)
+iplot(did)
 
 
 
@@ -215,7 +230,7 @@ summary(lm_1)
 coef_regressao=c(0.40411,0.28831,	0.81627,	0.52449,	0.44266,	0.57778,	0.78585,0.74316,0.87510,0.86783,0.81749,0.98784,0.78772	)
 anos=c(1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008)
 residuos_reg=c(0.14300,0.14232,0.13602,0.13025,0.12839,0.13039,0.12761,0.12488,0.12306,0.12282,0.12462,0.11285,0.1204)
-												
+
 
 
 
@@ -246,11 +261,11 @@ vetor_ATT=vector()
 anos=c(1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008)
 
 for (k in 1:length(anos)){
-  vetor_ATT[k]=log(prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real<=0.89]==anos[k]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real<=0.89]==anos[k]]))))-
+  vetor_ATT[k]=log(prod(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real<=0.89]==anos[k]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real<=0.89]==anos[k]]))))-
     log(
-      prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real<=0.89]==anos[k-1]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real<=0.89]==anos[k-1]])))*
-        prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k]])))/
-        prod(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k-1]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO.DO.EXERCICIO[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k-1]])))
+      prod(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real<=0.89]==anos[k-1]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real<=0.89]==anos[k-1]])))*
+        prod(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k]])))/
+        prod(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k-1]]^(1/length(merge_data_final$PC_TT_UN[merge_data_final$ANO_LAN[merge_data_final$aliquota_real[merge_data_final$aliquota_real<=2]>0.89]==anos[k-1]])))
     ) 
 }
 
