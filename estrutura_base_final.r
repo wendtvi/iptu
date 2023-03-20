@@ -75,8 +75,7 @@ base_final$merge_data_final.vv_tier400k=0
 base_final$merge_data_final.vv_tier401k=0
 
 for (j in 1:length(base_final$merge_data_final.tier_iptu_pos_trat)){
-  base_final$merge_data_final.vv_tier20k[j]=min(base_final$merge_data_final.vv[j],20000)
-  base_final$merge_data_final.vv_tier50k[j]=min(base_final$merge_data_final.vv[j]-20000,50000)
+  base_final$merge_data_final.vv_tier50k[j]=min(base_final$merge_data_final.vv[j],50000)
   base_final$merge_data_final.vv_tier100k[j]=min(base_final$merge_data_final.vv[j]-50000,50000)
   base_final$merge_data_final.vv_tier200k[j]=min(base_final$merge_data_final.vv[j]-100000,100000)
   base_final$merge_data_final.vv_tier400k[j]=min(base_final$merge_data_final.vv[j]-200000,200000)
@@ -102,3 +101,5 @@ base_final$merge_data_final.aliquota_real=base_final$merge_data_final.valor_iptu
 
 merge_data_final=base_final
 names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replacement = "")
+
+#write.csv2(merge_data_final,"~/base_finla.csv")
