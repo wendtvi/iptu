@@ -1,48 +1,37 @@
-#########################################################################
-#######considerando tier de aliquota real observações da base############
-#########################################################################
+######################################################################################
+#######considerando tier de aliquota real para agrupar observações da base############
+######################################################################################
 #construindo tier  da aliquota real
-#load("~/ws_final.RData")
-#merge_data_final=merge_data_final[merge_data_final$PC_TT_UN>quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[2],]
-#merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.1))[10],]
-
-merge_data_final=base_final
-
-names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replacement = "")
-
-#for (i in 1:nrow(merge_data_final)){
-#  for (k in 1:nrow(ipca)){
-#    if(ipca$YEAR[k]==merge_data_final$ANO_LAN[i])merge_data_final$PC_TT_UN[i]=merge_data_final$PC_TT_UN[i]*ipca[k,4]
-#  }
-#}
-
-
+merge_data_final=read.csv2("~/base_final.csv")
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-vetor_percentis=c(0,0.9,1.10,max(merge_data_final$aliquota_real))
+#Define limites para agrupamentos das observações por alíquota real
+vetor_percentis=c(0,0.9,1.10,max(merge_data_final$Aliquota.Real.Pos.Tratamento))
 vetor_cores=c("red","black","dimgray", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
+
+#GRAFICO 1: Média geométrica valor de lançamento por ano
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
   
-  merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0,]
-  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<tiert1,]
+  merge_data_final_temp=merge_data_final[merge_data_final$Aliquota.Real.Pos.Tratamento>=tiert0,]
+  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$Aliquota.Real.Pos.Tratamento<tiert1,]
   
   
-  preco_lan_medio_1995=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1995]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1995])))
-  preco_lan_medio_1996=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1996]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1996])))
-  preco_lan_medio_1997=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1997]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1997])))
-  preco_lan_medio_1998=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1998]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1998])))
-  preco_lan_medio_1999=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1999]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1999])))
-  preco_lan_medio_2000=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000])))
-  preco_lan_medio_2001=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001])))
-  preco_lan_medio_2002=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002])))
-  preco_lan_medio_2003=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2003]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2003])))
-  preco_lan_medio_2004=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2004]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2004])))
-  preco_lan_medio_2005=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2005]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2005])))
-  preco_lan_medio_2006=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2006]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2006])))
-  preco_lan_medio_2007=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2007]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2007])))
-  preco_lan_medio_2008=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2008]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2008])))
+  preco_lan_medio_1995=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1995]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1995])))
+  preco_lan_medio_1996=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1996]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1996])))
+  preco_lan_medio_1997=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1997]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1997])))
+  preco_lan_medio_1998=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1998]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1998])))
+  preco_lan_medio_1999=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1999]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1999])))
+  preco_lan_medio_2000=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000])))
+  preco_lan_medio_2001=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001])))
+  preco_lan_medio_2002=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002])))
+  preco_lan_medio_2003=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2003]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2003])))
+  preco_lan_medio_2004=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2004]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2004])))
+  preco_lan_medio_2005=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2005]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2005])))
+  preco_lan_medio_2006=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2006]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2006])))
+  preco_lan_medio_2007=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2007]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2007])))
+  preco_lan_medio_2008=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2008]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2008])))
   
   
   vetor_precos_lan_tempo=c(preco_lan_medio_1995,preco_lan_medio_1996,preco_lan_medio_1997,preco_lan_medio_1998,preco_lan_medio_1998,
@@ -64,24 +53,19 @@ for (i in 2:length(vetor_percentis)){
 
 legend(1996,230000,legend = format(round(vetor_percentis[1:length(vetor_percentis)-1], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
 
+#GRAFICO 2: Log da média geométrica valor de lançamento por ano (2x2)
 
-#2x2
-#load("~/ws_final.RData")
-#merge_data_final=merge_data_final[merge_data_final$PC_TT_UN>quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[2],]
-#merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
-
-#vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
   
-  merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0,]
-  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<tiert1,]
+  merge_data_final_temp=merge_data_final[merge_data_final$Aliquota.Real.Pos.Tratamento>=tiert0,]
+  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$Aliquota.Real.Pos.Tratamento<tiert1,]
   
   
-  preco_lan_medio_2000=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000])))
-  preco_lan_medio_2001=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001])))
-  preco_lan_medio_2002=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002])))
+  preco_lan_medio_2000=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000])))
+  preco_lan_medio_2001=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001])))
+  preco_lan_medio_2002=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002])))
   
   
   vetor_precos_lan_tempo=c(
@@ -102,34 +86,29 @@ legend(2001.5,11.4,legend = format(round(vetor_percentis[1:length(vetor_percenti
 
 
 
-#ln()
-#load("~/ws_final.RData")
 
-#merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data_final$PC_TT_UN,probs = seq(0, 1, 0.10))[10],]
-
-#vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
-
+#GRAFICO 3: Log da média geométrica valor de lançamento por ano 
 for (i in 2:length(vetor_percentis)){
   tiert0=vetor_percentis[i-1]
   tiert1=vetor_percentis[i]
-  merge_data_final_temp=merge_data_final[merge_data_final$aliquota_real>=tiert0,]
-  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$aliquota_real<tiert1,]
+  merge_data_final_temp=merge_data_final[merge_data_final$Aliquota.Real.Pos.Tratamento>=tiert0,]
+  merge_data_final_temp=merge_data_final_temp[merge_data_final_temp$Aliquota.Real.Pos.Tratamento<tiert1,]
   
   
-  preco_lan_medio_1995=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1995]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1995])))
-  preco_lan_medio_1996=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1996]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1996])))
-  preco_lan_medio_1997=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1997]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1997])))
-  preco_lan_medio_1998=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1998]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1998])))
-  preco_lan_medio_1999=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1999]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==1999])))
-  preco_lan_medio_2000=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2000])))
-  preco_lan_medio_2001=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2001])))
-  preco_lan_medio_2002=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2002])))
-  preco_lan_medio_2003=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2003]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2003])))
-  preco_lan_medio_2004=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2004]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2004])))
-  preco_lan_medio_2005=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2005]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2005])))
-  preco_lan_medio_2006=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2006]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2006])))
-  preco_lan_medio_2007=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2007]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2007])))
-  preco_lan_medio_2008=prod(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2008]^(1/length(merge_data_final_temp$PC_TT_UN[merge_data_final_temp$ANO_LAN==2008])))
+  preco_lan_medio_1995=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1995]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1995])))
+  preco_lan_medio_1996=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1996]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1996])))
+  preco_lan_medio_1997=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1997]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1997])))
+  preco_lan_medio_1998=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1998]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1998])))
+  preco_lan_medio_1999=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1999]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==1999])))
+  preco_lan_medio_2000=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2000])))
+  preco_lan_medio_2001=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2001])))
+  preco_lan_medio_2002=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2002])))
+  preco_lan_medio_2003=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2003]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2003])))
+  preco_lan_medio_2004=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2004]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2004])))
+  preco_lan_medio_2005=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2005]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2005])))
+  preco_lan_medio_2006=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2006]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2006])))
+  preco_lan_medio_2007=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2007]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2007])))
+  preco_lan_medio_2008=prod(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2008]^(1/length(merge_data_final_temp$Preco.de.Lancamento.do.Imovel[merge_data_final_temp$Ano.de.Lancamento==2008])))
   
   
   vetor_precos_lan_tempo=c(log(preco_lan_medio_1995),log(preco_lan_medio_1996),log(preco_lan_medio_1997),log(preco_lan_medio_1998),log(preco_lan_medio_1999),
@@ -150,4 +129,3 @@ for (i in 2:length(vetor_percentis)){
   
 }
 legend(1996,13,legend = format(round(vetor_percentis[2:length(vetor_percentis)], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
-
