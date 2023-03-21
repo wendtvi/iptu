@@ -6,7 +6,7 @@ merge_data_final=merge_data_final[merge_data_final$PC_TT_UN<=quantile(merge_data
 
 #Seleciona da base completa apenas variáveis relevantes
 base_final=data.frame(merge_data_final$INDEX_MERGE,merge_data_final$ANO_LAN,
-                      merge_data_final$CEP.DO.IMOVEL,merge_data_final$ANO.DA.CONSTRUCAO.CORRIGIDO,
+                      merge_data_final$CEP.DO.IMOVEL,
                       merge_data_final$TIPO.DE.TERRENO,merge_data_final$TIPO.DE.USO.DO.IMOVEL,
                       merge_data_final$SUBPREF,merge_data_final$DORM_UNID,merge_data_final$BANH_UNID,merge_data_final$GAR_UNID,
                       merge_data_final$ELEV,merge_data_final$COB,merge_data_final$BLOCOS,merge_data_final$ANDARES,merge_data_final$AR_UT_UNID,merge_data_final$AR_TT_UNID,
@@ -102,11 +102,12 @@ merge_data_final=base_final
 names(merge_data_final)=gsub("merge_data_final.",names(merge_data_final),replacement = "")
 
 #Redefine nome das variáveis (apenas para tornar base mais legível)
-names(merge_data_final)=c("Indice.da.Observacao","Ano.de.Lancamento","Cep.do.Imovel","Ano.do.Imovel.Corrigido","Tipo.de.Terreno","Tipo.de.Imovel","Subprefeitura","Numero.de.Dormitorios",
-                          "Numero.de.Banheiros","Numero.de.Elevadores.do.Empreendimento","Preco.de.Lancamento.do.Imovel","Valor.Venal.da.Construcao","Valor.Venal.do.Terreno",
+names(merge_data_final)=c("Indice.da.Observacao","Ano.de.Lancamento","Cep.do.Imovel","Tipo.de.Terreno","Tipo.de.Imovel","Subprefeitura","Numero.de.Dormitorios",
+                          "Numero.de.Banheiros","Numero.de.Garagens.do.Imovel","Numero.de.Elevadores.do.Empreendimento","Cobertura","Blocos",
+                          "Andares.do.Empreendimento","Area.Util.do.Imovel","Area.Total.do.Imovel","Numero.de.Garagens.do.Empreendimento","Preco.de.Lancamento.do.Imovel","Valor.Venal.da.Construcao","Valor.Venal.do.Terreno",
                           "Indice.de.Condominio","Valor.Venal.Total","Aliquota.Nominal.Pre.Tratamento","Valor.IPTU.Pre.Tratamento","Aliquota.Nominal.Pos.Tratamento",
                           "Valor.IPTU.Pos.Tratamento","Valor.Venal.tier.50k","Valor.Venal.tier.100k","Valor.Venal.tier.200k","Valor.Venal.tier.400k","Valor.Venal.tier.superior",
                           "Aliquota.Real.Pos.Tratamento")
 
 
-write.csv2(merge_data_final,"~/base_finla.csv")
+write.csv2(merge_data_final,"~/base_final.csv")
