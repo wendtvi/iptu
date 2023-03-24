@@ -99,7 +99,22 @@ lm_1=lm(log(base_final_lm$PC_TT_UN)~base_final_lm$Pos_tratamento*base_final_lm$G
           base_final_lm$ELEV+base_final_lm$SUBPREF)
 summary(lm_1)
 
-did=feols(log(PC_TT_UN) ~(Grupo_tratado):i(ANO_LAN,2001),data = base_final_lm)
+
+
+
+base_final_lm=read.csv2("C:/Users/vitoria.wendt/Downloads/base_final.csv")
+
+base_final_lm[,length(base_final_lm)+1]=0
+for(k in 1:length(base_final_lm$Indice.da.Observacao)){
+  if(base_final_lm$Aliquota.Real.Pos.Tratamento[k]>0){
+    if(base_final_lm$Aliquota.Real.Pos.Tratamento[k]<1){
+      base_final_lm[k,length(base_final_lm)]=1
+    }
+  }
+}
+names(base_final_lm)[ncol(base_final_lm)]="Grupo_tratado"
+
+did=feols(log(Preco.de.Lancamento.do.Imovel) ~(Grupo_tratado):i(Ano.de.Lancamento,2002)|Grupo_tratado+Ano.de.Lancamento,data = base_final_lm)
 summary(did)
 iplot(did)
 
