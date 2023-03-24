@@ -2,11 +2,13 @@
 #######considerando tier de aliquota real para agrupar observações da base############
 ######################################################################################
 #construindo tier  da aliquota real
-merge_data_final=read.csv2("~/base_final.csv")
+#merge_data_final=read.csv2("~/base_final.csv")
+merge_data_final=read.csv2("C:/Users/vitoria.wendt/Downloads/base_final.csv")
+
 
 #vetor_percentis=quantile(merge_data_final$aliquota_real, probs = seq(0,1,0.33))
 #Define limites para agrupamentos das observações por alíquota real
-vetor_percentis=c(0,0.9,1.10,max(merge_data_final$Aliquota.Real.Pos.Tratamento))
+vetor_percentis=c(0,0.9,1.1,max(merge_data_final$Aliquota.Real.Pos.Tratamento))
 vetor_cores=c("red","black","dimgray", "blue", "darkgoldenrod4", "gray", "orange", "cyan", "chocolate","black")
 
 #GRAFICO 1: Média geométrica valor de lançamento por ano
@@ -120,7 +122,7 @@ for (i in 2:length(vetor_percentis)){
   
   ###Sem corrigir inflação
   if (i==2){ 
-    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica do valor de lançamento por ano",ylim = c(11.30,13),type = 'l',ylab = "Preço de lançamento")
+    plot(y=vetor_precos_lan_tempo,x=anos,pch=21,main = "Log da média geométrica do valor de lançamento por ano",ylim = c(10,13),type = 'l',ylab = "Preço de lançamento")
     abline(v=2001,col="red")
   }
   lines(y=vetor_precos_lan_tempo,x=anos,col=vetor_cores[i-1])
@@ -129,3 +131,4 @@ for (i in 2:length(vetor_percentis)){
   
 }
 legend(1996,13,legend = format(round(vetor_percentis[2:length(vetor_percentis)], 2), nsmall = 2),col = vetor_cores,cex = .7,fill  = vetor_cores[1:length(vetor_percentis)-1])
+
